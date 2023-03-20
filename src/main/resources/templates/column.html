@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of Column</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>List of Column</h1>
+<h3 th:if="${message != null}" th:text="${message}">Message</h3>
+<a th:href="@{/column/edit}">Create new Column</a>
+<table>
+    <thead>
+    <tr>
+        <th>name</th>
+        <th>issues</th>
+
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entity : ${list}">
+        <td th:text=${entity.name}></td>
+        <td>
+            <ul>
+                <li th:each="issues_item : ${entity.issues}" th:text="${issues_item}"></li>
+            </ul>
+        </td>
+
+        <td>
+            <a th:href="@{/column/{id}(id=${entity.id})}">See detail</a>
+            <a th:href="@{/column/edit/{id}(id=${entity.id})}">Edit</a>
+            <form th:if="${entity.id!=null}" method="get"
+                  th:action="'/column/'
+                  +${entity.id}+'/delete'">
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

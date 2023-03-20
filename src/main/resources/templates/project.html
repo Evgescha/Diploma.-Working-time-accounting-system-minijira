@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of Project</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>List of Project</h1>
+<h3 th:if="${message != null}" th:text="${message}">Message</h3>
+<a th:href="@{/project/edit}">Create new Project</a>
+<table>
+    <thead>
+    <tr>
+        <th>name</th>
+        <th>description</th>
+        <th>image</th>
+        <th>status</th>
+        <th>members</th>
+        <th>board</th>
+        <th>owner</th>
+        <th>dateCreated</th>
+
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entity : ${list}">
+        <td th:text=${entity.name}></td>
+        <td th:text=${entity.description}></td>
+        <td th:text=${entity.image}></td>
+        <td th:text=${entity.status}></td>
+        <td>
+            <ul>
+                <li th:each="members_item : ${entity.members}" th:text="${members_item}"></li>
+            </ul>
+        </td>
+        <td th:text=${entity.board}></td>
+        <td th:text=${entity.owner}></td>
+        <td th:text=${entity.dateCreated}></td>
+
+        <td>
+            <a th:href="@{/project/{id}(id=${entity.id})}">See detail</a>
+            <a th:href="@{/project/edit/{id}(id=${entity.id})}">Edit</a>
+            <form th:if="${entity.id!=null}" method="get"
+                  th:action="'/project/'
+                  +${entity.id}+'/delete'">
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

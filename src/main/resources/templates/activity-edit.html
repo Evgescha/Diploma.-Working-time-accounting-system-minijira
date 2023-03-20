@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Activity</title>
+</head>
+<body>
+<h1>Edit Activity</h1>
+<h3 th:if="${message != null}" th:text="${message}">Message</h3>
+<form th:action="@{/activity}" th:object="${entity}" method="post">
+
+    <p>
+        <label for="issue">issue:</label>
+        <input type="text" th:field="*{issue}" id="issue" required>
+    </p>
+    <p>
+        <label for="type">type:</label>
+        <input type="text" th:field="*{type}" id="type" required>
+    </p>
+    <p>
+        <label for="description">description:</label>
+        <input type="text" th:field="*{description}" id="description" required>
+    </p>
+    <p>
+        <label for="dateCreated">dateCreated:</label>
+        <input type="text" th:field="*{dateCreated}" id="dateCreated" required>
+    </p>
+
+    <p>
+        <input type="text" th:field="*{id}" id="id">
+        <input type="submit" value="Save">
+        <a th:href="@{/activity}">Cancel</a>
+    </p>
+</form>
+
+</body>
+</html>

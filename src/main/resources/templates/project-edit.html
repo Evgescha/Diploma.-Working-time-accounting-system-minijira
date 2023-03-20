@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Project</title>
+</head>
+<body>
+<h1>Edit Project</h1>
+<h3 th:if="${message != null}" th:text="${message}">Message</h3>
+<form th:action="@{/project}" th:object="${entity}" method="post">
+
+    <p>
+        <label for="name">name:</label>
+        <input type="text" th:field="*{name}" id="name" required>
+    </p>
+    <p>
+        <label for="description">description:</label>
+        <input type="text" th:field="*{description}" id="description" required>
+    </p>
+    <p>
+        <label for="image">image:</label>
+        <input type="text" th:field="*{image}" id="image" required>
+    </p>
+    <p>
+        <label for="status">status:</label>
+        <input type="text" th:field="*{status}" id="status" required>
+    </p>
+    <p>
+        <label for="members">members:</label>
+        <select multiple="multiple" th:field="*{members}" id="members">
+            <option th:each="members_item : ${members_list}" th:value="${members_item}"
+                    th:text="${members_item}"></option>
+        </select>
+    </p>
+    <p>
+        <label for="board">board:</label>
+        <input type="text" th:field="*{board}" id="board" required>
+    </p>
+    <p>
+        <label for="owner">owner:</label>
+        <input type="text" th:field="*{owner}" id="owner" required>
+    </p>
+    <p>
+        <label for="dateCreated">dateCreated:</label>
+        <input type="text" th:field="*{dateCreated}" id="dateCreated" required>
+    </p>
+
+    <p>
+        <input type="text" th:field="*{id}" id="id">
+        <input type="submit" value="Save">
+        <a th:href="@{/project}">Cancel</a>
+    </p>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View User</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>User Details</h1>
+<h3 th:if="${message!=null}" th:text="${message}">Message</h3>
+<table>
+    <tr>
+        <th>firstname:</th>
+        <td th:text="${entity.firstname}"></td>
+    </tr>
+    <tr>
+        <th>lastname:</th>
+        <td th:text="${entity.lastname}"></td>
+    </tr>
+    <tr>
+        <th>username:</th>
+        <td th:text="${entity.username}"></td>
+    </tr>
+    <tr>
+        <th>email:</th>
+        <td th:text="${entity.email}"></td>
+    </tr>
+    <tr>
+        <th>password:</th>
+        <td th:text="${entity.password}"></td>
+    </tr>
+    <tr>
+        <th>image:</th>
+        <td th:text="${entity.image}"></td>
+    </tr>
+    <tr>
+        <th>ownProjects:</th>
+        <td>
+            <ul>
+                <li th:each="ownProjects_item : ${entity.ownProjects}" th:text="${ownProjects_item}"></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>contributeProjects:</th>
+        <td>
+            <ul>
+                <li th:each="contributeProjects_item : ${entity.contributeProjects}"
+                    th:text="${contributeProjects_item}"></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>comments:</th>
+        <td>
+            <ul>
+                <li th:each="comments_item : ${entity.comments}" th:text="${comments_item}"></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>dateCreated:</th>
+        <td th:text="${entity.dateCreated}"></td>
+    </tr>
+
+
+</table>
+<br>
+<a th:href="@{/user}">Back to the List</a>
+<a th:href="@{/user/edit/{id}(id=${entity.id})}">Edit</a>
+<form th:if="${entity.id!=null}" method="get"
+      th:action="'/user/'
+               + ${entity.id} + '/delete'">
+    <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
+</form>
+</body>
+</html>

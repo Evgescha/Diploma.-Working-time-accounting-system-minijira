@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of User</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>List of User</h1>
+<h3 th:if="${message != null}" th:text="${message}">Message</h3>
+<a th:href="@{/user/edit}">Create new User</a>
+<table>
+    <thead>
+    <tr>
+        <th>firstname</th>
+        <th>lastname</th>
+        <th>username</th>
+        <th>email</th>
+        <th>password</th>
+        <th>image</th>
+        <th>ownProjects</th>
+        <th>contributeProjects</th>
+        <th>comments</th>
+        <th>dateCreated</th>
+
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entity : ${list}">
+        <td th:text=${entity.firstname}></td>
+        <td th:text=${entity.lastname}></td>
+        <td th:text=${entity.username}></td>
+        <td th:text=${entity.email}></td>
+        <td th:text=${entity.password}></td>
+        <td th:text=${entity.image}></td>
+        <td>
+            <ul>
+                <li th:each="ownProjects_item : ${entity.ownProjects}" th:text="${ownProjects_item}"></li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="contributeProjects_item : ${entity.contributeProjects}"
+                    th:text="${contributeProjects_item}"></li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="comments_item : ${entity.comments}" th:text="${comments_item}"></li>
+            </ul>
+        </td>
+        <td th:text=${entity.dateCreated}></td>
+
+        <td>
+            <a th:href="@{/user/{id}(id=${entity.id})}">See detail</a>
+            <a th:href="@{/user/edit/{id}(id=${entity.id})}">Edit</a>
+            <form th:if="${entity.id!=null}" method="get"
+                  th:action="'/user/'
+                  +${entity.id}+'/delete'">
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

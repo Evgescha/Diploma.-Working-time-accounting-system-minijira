@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+</head>
+<body>
+<h1>Edit User</h1>
+<h3 th:if="${message != null}" th:text="${message}">Message</h3>
+<form th:action="@{/user}" th:object="${entity}" method="post">
+
+    <p>
+        <label for="firstname">firstname:</label>
+        <input type="text" th:field="*{firstname}" id="firstname" required>
+    </p>
+    <p>
+        <label for="lastname">lastname:</label>
+        <input type="text" th:field="*{lastname}" id="lastname" required>
+    </p>
+    <p>
+        <label for="username">username:</label>
+        <input type="text" th:field="*{username}" id="username" required>
+    </p>
+    <p>
+        <label for="email">email:</label>
+        <input type="text" th:field="*{email}" id="email" required>
+    </p>
+    <p>
+        <label for="password">password:</label>
+        <input type="text" th:field="*{password}" id="password" required>
+    </p>
+    <p>
+        <label for="image">image:</label>
+        <input type="text" th:field="*{image}" id="image" required>
+    </p>
+    <p>
+        <label for="ownProjects">ownProjects:</label>
+        <select multiple="multiple" th:field="*{ownProjects}" id="ownProjects">
+            <option th:each="ownProjects_item : ${ownProjects_list}" th:value="${ownProjects_item}"
+                    th:text="${ownProjects_item}"></option>
+        </select>
+    </p>
+    <p>
+        <label for="contributeProjects">contributeProjects:</label>
+        <select multiple="multiple" th:field="*{contributeProjects}" id="contributeProjects">
+            <option th:each="contributeProjects_item : ${contributeProjects_list}" th:value="${contributeProjects_item}"
+                    th:text="${contributeProjects_item}"></option>
+        </select>
+    </p>
+    <p>
+        <label for="comments">comments:</label>
+        <select multiple="multiple" th:field="*{comments}" id="comments">
+            <option th:each="comments_item : ${comments_list}" th:value="${comments_item}"
+                    th:text="${comments_item}"></option>
+        </select>
+    </p>
+    <p>
+        <label for="dateCreated">dateCreated:</label>
+        <input type="text" th:field="*{dateCreated}" id="dateCreated" required>
+    </p>
+
+    <p>
+        <input type="text" th:field="*{id}" id="id">
+        <input type="submit" value="Save">
+        <a th:href="@{/user}">Cancel</a>
+    </p>
+</form>
+
+</body>
+</html>

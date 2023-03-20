@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of Issue</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>List of Issue</h1>
+<h3 th:if="${message != null}" th:text="${message}">Message</h3>
+<a th:href="@{/issue/edit}">Create new Issue</a>
+<table>
+    <thead>
+    <tr>
+        <th>board</th>
+        <th>name</th>
+        <th>description</th>
+        <th>column</th>
+        <th>labels</th>
+        <th>comments</th>
+        <th>assigned</th>
+        <th>created</th>
+        <th>related</th>
+        <th>activities</th>
+        <th>timeSpend</th>
+        <th>dateCreated</th>
+        <th>status</th>
+
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entity : ${list}">
+        <td th:text=${entity.board}></td>
+        <td th:text=${entity.name}></td>
+        <td th:text=${entity.description}></td>
+        <td th:text=${entity.column}></td>
+        <td>
+            <ul>
+                <li th:each="labels_item : ${entity.labels}" th:text="${labels_item}"></li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="comments_item : ${entity.comments}" th:text="${comments_item}"></li>
+            </ul>
+        </td>
+        <td th:text=${entity.assigned}></td>
+        <td th:text=${entity.created}></td>
+        <td>
+            <ul>
+                <li th:each="related_item : ${entity.related}" th:text="${related_item}"></li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="activities_item : ${entity.activities}" th:text="${activities_item}"></li>
+            </ul>
+        </td>
+        <td th:text=${entity.timeSpend}></td>
+        <td th:text=${entity.dateCreated}></td>
+        <td th:text=${entity.status}></td>
+
+        <td>
+            <a th:href="@{/issue/{id}(id=${entity.id})}">See detail</a>
+            <a th:href="@{/issue/edit/{id}(id=${entity.id})}">Edit</a>
+            <form th:if="${entity.id!=null}" method="get"
+                  th:action="'/issue/'
+                  +${entity.id}+'/delete'">
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

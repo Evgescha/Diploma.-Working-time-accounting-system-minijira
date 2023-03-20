@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Column</title>
+</head>
+<body>
+<h1>Edit Column</h1>
+<h3 th:if="${message != null}" th:text="${message}">Message</h3>
+<form th:action="@{/column}" th:object="${entity}" method="post">
+
+    <p>
+        <label for="name">name:</label>
+        <input type="text" th:field="*{name}" id="name" required>
+    </p>
+    <p>
+        <label for="issues">issues:</label>
+        <select multiple="multiple" th:field="*{issues}" id="issues">
+            <option th:each="issues_item : ${issues_list}" th:value="${issues_item}" th:text="${issues_item}"></option>
+        </select>
+    </p>
+
+    <p>
+        <input type="text" th:field="*{id}" id="id">
+        <input type="submit" value="Save">
+        <a th:href="@{/column}">Cancel</a>
+    </p>
+</form>
+
+</body>
+</html>
