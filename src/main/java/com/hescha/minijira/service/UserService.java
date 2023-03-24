@@ -34,7 +34,7 @@ public class UserService extends CrudService<User> {
         return repository.findByLastnameContains(lastname);
     }
 
-    public List<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         return repository.findByUsername(username);
     }
 
