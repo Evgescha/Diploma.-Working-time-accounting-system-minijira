@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/bootstrap.min.js"></script>
+    </meta>
+</head>
+
+<body>
+<header id="header" class="header-area main-header" th:fragment="nav">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="header-logo">🏠</a>
+            <div class="header-buttons">
+                <a href="/registration" class="btn btn-register">Register</a>
+                <a href="/login" class="btn btn-signin">Sign in</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="col-4" th:fragment="left-menu">
+    <ul class="left-menu">
+        <li>
+            <span class="menu-icon">📊</span>
+            <a href="/activity">Активность проекта</a>
+        </li>
+        <li>
+            <span class="menu-icon">👥</span>
+            <a href="/members">участники</a>
+        </li>
+        <li>
+            <span class="menu-icon">⏱️</span>
+            <a href="/time-tracking">Учет времени</a>
+        </li>
+        <li>
+            <span class="menu-icon">⚙️</span>
+            <a href="/settings">Настройка проекта</a>
+        </li>
+    </ul>
+</div>
+
+<footer class="footer-section" th:fragment="footer">
+</footer>
+<!-- Footer Area End -->
+
+
+</body>
+
+</html>

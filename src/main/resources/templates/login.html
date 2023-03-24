@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Sing in</title>
+	<div th:replace="~{commons :: head}"></div>
+</head>
+<body>
+
+<div th:replace="~{commons :: header}"></div>
+
+<section class="mt-5">
+	<div class="container">
+		<div class="row">
+			<div class="col text-center">
+				<div class="greetingMessage">
+					<h3>Log in to your account</h3>
+				</div>
+			</div>
+		</div>
+		<form action="/login" class="singin">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<div class="form">
+						<div class="row">
+							<div class="col">
+								<div class="fieldItem">
+	  								<label for="username" class="fieldItemLabel">Username</label>
+									<input id="username" name="username" type="text" class="fieldItemInput"/>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="fieldItem">
+	  								<label for="password" class="fieldItemLabel">Password</label>
+									<input id="password" name="password" type="password" class="fieldItemInput"/>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="fieldItem">
+	  								<input type="submit" class="btn btn-primary" value="Sing in"></input>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+
+<div th:replace="~{commons :: footer}"></div>
+	
+</body>
+</html>

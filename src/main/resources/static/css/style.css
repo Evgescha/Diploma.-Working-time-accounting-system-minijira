@@ -1,0 +1,201 @@
+body{}
+header{
+    height: 72px;
+    background-color: #292961;
+    margin-bottom: 50px;
+    min-height: var(--header-height, 48px);
+  display: flex;      
+}
+section{}
+footer{}
+
+
+
+
+/* Стили для шапки сайта */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 15px;  
+}
+.header-logo {
+  font-size: 24px;
+  text-decoration: none;
+}
+.header-buttons {
+  display: flex;
+}
+.btn-register {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  margin-right: 5px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+.btn-signin {
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+
+
+/* Стили для левого меню */
+.left-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.left-menu li {
+  margin-bottom: 10px;
+}
+.left-menu a {
+  text-decoration: none;
+  color: #333238;
+}
+.menu-icon {
+  margin-right: 5px;
+}
+
+
+
+
+/*-----------------------*/
+.container{}
+.row{}
+.col{}
+.greetingMessage{}
+.singin{}
+.form{}
+.fieldItem{
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0px;
+}
+.textField{}
+.fieldItemLabel{
+	font-weight: 600;
+
+}
+.fieldItemInput{
+	background-color: #fff;
+    font-family: var(--default-regular-font, -apple-system),BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",Ubuntu,Cantarell,"Helvetica Neue",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 0.875rem;
+    line-height: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    height: auto;
+    color: #333238;
+    box-shadow: inset 0 0 0 1px #89888d;
+    border-style: none;
+    appearance: none;
+}
+.combiner{
+    display: flex;
+    justify-content: space-between;
+}
+
+.indexItemInfo{
+    display: flex;
+}
+.indexItemInfo-image{
+	background-color: #f4f0ff;
+	font-size: 28px;
+    line-height: 64px;
+    width: 64px;
+    height: 64px;
+    text-align: center;
+    vertical-align: top;
+    color: #333238;    
+    background: #fefefe;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(31,30,36,0.1);
+}
+.indexItemInfo-data{
+    margin: 0 5px;
+}
+.indexItemInfo-title{
+font-size: 1.4375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #333238;
+}
+.indexItemInfo-id{
+    color: #737278;
+    line-height: 16px;
+    font-weight: 400;
+}
+.indexDescription{}
+.searchForm{
+    margin: 20px 0px;
+    padding-bottom: 1px;
+    display: flex;
+    width: 100%;
+    border-bottom: 3px solid #ececef;
+}
+.searchField{
+    width: 100%;
+}
+.btn-search{
+    width: auto;
+}
+.table-container {
+  display: table;
+  width: 100%;
+}
+.table-row {
+  display: table-row;
+}
+.table-cell {
+  display: table-cell;
+  padding: 10px;
+  vertical-align: top;
+}
+.project-image {
+  width: 64px;
+  height: 64px;
+  text-align: center;
+  line-height: 64px;
+  font-size: 32px;
+  background-color: #f4f0ff;
+  color: #333238;
+}
+.project-details {
+  width: 100%;
+}
+.project-title {
+  font-weight: bold;
+}
+.project-description {
+  color: #737278;
+}
+.project-status {
+  /* стили для статуса проекта */
+}
+.project-members {
+  display: flex;
+  align-items: center;
+}
+.project-members-icon {
+  font-size: 18px;
+  margin-right: 5px;
+}
+.project-members-count {
+  /* стили для количества участников */
+}
+.project-author {
+  /* стили для автора проекта */
+}
+
+
+
+
