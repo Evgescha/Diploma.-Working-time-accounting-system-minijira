@@ -32,18 +32,11 @@
                         <label for="status">Status:</label>
                         <select th:field="*{status}" class="form-control" id="status" required>
                             <option value="ALIVE">ALIVE</option>
-                            <option value="DEAD">DEAD</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="members">Members:</label>
-                        <select multiple="multiple" th:field="*{members}" class="form-control" id="members" disabled>
-                            <option th:each="member : ${members_list}" th:value="${member}" th:text="${member}"></option>
+                            <option value="ARCHIVED">ARCHIVED</option>
                         </select>
                     </div>
                     <div class="form-group" hidden>
-                        <label for="owner">Owner:</label>
-                        <input type="text" th:field="*{owner}" class="form-control" id="owner">
+                        <input type="text" th:field="*{id}" class="form-control" id="id" name="id">
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Create Project" class="btn btn-primary">

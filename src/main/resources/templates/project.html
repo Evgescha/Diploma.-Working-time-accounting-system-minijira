@@ -58,8 +58,13 @@
                                 <span class="project-members-count" th:text="${entity.getMembers().size()}">5</span>
                             </div>
                             <div class="table-cell project-author"
-                                 th:text="${entity.owner.firstname} + ' ' + ${entity.owner.lastname}">Author
+                                 th:text="${entity.owner.firstname} + ' ' + ${entity.owner.lastname}">
+                                Author
                             </div>
+                            <a class="table-cell project-details"
+                               th:href="'/project/edit/'+${entity.id}">
+                                Edit
+                            </a>
                         </div>
                     </div>
                 </div>

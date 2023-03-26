@@ -80,9 +80,5 @@ public class ProjectService extends CrudService<Project> {
         read.setDescription(entity.getDescription());
         read.setImage(entity.getImage());
         read.setStatus(entity.getStatus());
-        read.setMembers(entity.getMembers());
-        read.setBoard(entity.getBoard());
-        read.setOwner(entity.getOwner());
-        read.setDateCreated(entity.getDateCreated());
     }
 }

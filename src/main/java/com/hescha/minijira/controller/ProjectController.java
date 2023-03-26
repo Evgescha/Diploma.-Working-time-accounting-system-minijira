@@ -28,7 +28,6 @@ public class ProjectController {
     public static final String REDIRECT_TO_ALL_ITEMS = "redirect:" + CURRENT_ADDRESS;
 
     private final ProjectService service;
-
     private final UserService userService;
     private final BoardService boardService;
     private final SecurityService securityService;
@@ -69,32 +68,38 @@ public class ProjectController {
     @PostMapping
     public String save(@ModelAttribute Project entity, RedirectAttributes ra) {
         if (entity.getId() == null) {
-            try {
-                User owner = securityService.getLoggedIn();
-                if (entity.getOwner() == null) {
-                    entity.setOwner(owner);
-                }
-                if (!entity.getMembers().contains(owner)) {
-                    entity.getMembers().add(owner);
-                }
-                Project createdEntity = service.create(entity);
-                ra.addFlashAttribute(MESSAGE, "Creating is successful");
-                return REDIRECT_TO_ALL_ITEMS + "/" + createdEntity.getId();
-            } catch (Exception e) {
-                ra.addFlashAttribute(MESSAGE, "Creating failed");
-                e.printStackTrace();
-            }
-            return REDIRECT_TO_ALL_ITEMS;
+            return createEntity(entity, ra);
         } else {
-            try {
-                service.update(entity.getId(), entity);
-                ra.addFlashAttribute(MESSAGE, "Editing is successful");
-            } catch (Exception e) {
-                e.printStackTrace();
-                ra.addFlashAttribute(MESSAGE, "Editing failed");
-            }
-            return REDIRECT_TO_ALL_ITEMS + "/" + entity.getId();
+            return updateEntity(entity, ra);
         }
+    }
+
+    private String updateEntity(Project entity, RedirectAttributes ra) {
+        try {
+            service.update(entity.getId(), entity);
+            ra.addFlashAttribute(MESSAGE, "Editing is successful");
+        } catch (Exception e) {
+            e.printStackTrace();
+            ra.addFlashAttribute(MESSAGE, "Editing failed");
+        }
+        return REDIRECT_TO_ALL_ITEMS + "/" + entity.getId();
+    }
+
+    private String createEntity(Project entity, RedirectAttributes ra) {
+        try {
+            User owner = securityService.getLoggedIn();
+                entity.setOwner(owner);
+                entity.getMembers().add(owner);
+            Project createdEntity = service.create(entity);
+            owner.getOwnProjects().add(createdEntity);
+            userService.update(owner);
+            ra.addFlashAttribute(MESSAGE, "Creating is successful");
+            return REDIRECT_TO_ALL_ITEMS + "/" + createdEntity.getId();
+        } catch (Exception e) {
+            ra.addFlashAttribute(MESSAGE, "Creating failed");
+            e.printStackTrace();
+        }
+        return REDIRECT_TO_ALL_ITEMS;
     }
 
     @GetMapping("/{id}/delete")
