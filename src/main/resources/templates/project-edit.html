@@ -15,7 +15,7 @@
         </div>
         <div class="row">
             <div class="offset-md-2 col-md-8">
-                <form th:action="@{/project}" th:object="${entity}" method="post">
+                <form action="/project" th:object="${entity}" method="post">
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" th:field="*{name}" class="form-control" id="name" required>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <label for="image">Image:</label>
-                        <input type="text" th:field="*{image}" class="form-control" id="image" required>
+                        <input type="text" th:field="*{image}" class="form-control" id="image">
                     </div>
                     <div class="form-group">
                         <label for="status">Status:</label>

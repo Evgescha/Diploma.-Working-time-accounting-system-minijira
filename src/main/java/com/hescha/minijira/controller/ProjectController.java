@@ -71,8 +71,12 @@ public class ProjectController {
         if (entity.getId() == null) {
             try {
                 User owner = securityService.getLoggedIn();
-                entity.setOwner(owner);
-                entity.getMembers().add(owner);
+                if (entity.getOwner() == null) {
+                    entity.setOwner(owner);
+                }
+                if (!entity.getMembers().contains(owner)) {
+                    entity.getMembers().add(owner);
+                }
                 Project createdEntity = service.create(entity);
                 ra.addFlashAttribute(MESSAGE, "Creating is successful");
                 return REDIRECT_TO_ALL_ITEMS + "/" + createdEntity.getId();

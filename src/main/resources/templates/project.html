@@ -34,25 +34,32 @@
                         <input type="submit" value="Search" class="btn btn-primary btn-search">
                     </form>
                 </div>
-                <br>
-                <br>
                 <div class="row">
                     <div class="table-container">
                         <div class="table-row" th:each="entity : ${list}">
-                            <div class="table-cell project-image">P</div>
-                            <div class="table-cell project-details">
+                            <div class="table-cell project-image"
+                                 th:if="${entity.image == ''}"
+                                 th:text="${entity.name.charAt(0)}">P
+                            </div>
+                            <div class="table-cell project-image"
+                                 th:if="${entity.image != null and entity.image != ''}">
+                                <img th:src="${entity.image}" width="60" height="60">
+                            </div>
+                            <a class="table-cell project-details"
+                               th:href="'/project/'+${entity.id}">
                                 <div class="project-title" th:text=${entity.name}>Project Title</div>
                                 <div class="project-description" th:text=${entity.description}>
                                     Project description goes here...
                                 </div>
-                            </div>
+                            </a>
                             <div class="table-cell project-status" th:text=${entity.status}>Status</div>
                             <div class="table-cell project-members">
                                 <span class="project-members-icon">👥</span>
                                 <span class="project-members-count" th:text="${entity.getMembers().size()}">5</span>
                             </div>
                             <div class="table-cell project-author"
-                                 th:text="${entity.owner.firstname} + ' ' + ${entity.owner.lastname}">Author</div>
+                                 th:text="${entity.owner.firstname} + ' ' + ${entity.owner.lastname}">Author
+                            </div>
                         </div>
                     </div>
                 </div>

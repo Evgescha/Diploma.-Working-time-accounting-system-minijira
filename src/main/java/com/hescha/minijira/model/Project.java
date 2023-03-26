@@ -2,12 +2,7 @@ package com.hescha.minijira.model;
 
 import lombok.Data;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +16,7 @@ public class Project extends AbstractEntity {
     private String description;
     private String image;
     private ProjectStatusType status = ProjectStatusType.ALIVE;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private List<User> members = new ArrayList<>();
     @OneToOne
     private Board board;
