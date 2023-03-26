@@ -199,6 +199,12 @@ font-size: 1.4375rem;
     display: flex;
     justify-content: space-between;
 }
-
+.btnCenter{
+    align-items: center;
+    display: flex;
+}
+.textCenter{
+    text-align: center;
+}
 
 

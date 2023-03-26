@@ -1,26 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Index</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/bootstrap.min.js"></script>
+    <title>Projects</title>
+    <div th:replace="~{commons :: head}"></div>
 </head>
 <body>
 
-<header>
-    <div class="container">
-        <div class="header-content">
-            <a href="/" class="header-logo">🏠</a>
-            <div class="header-buttons">
-                <a href="/registration" class="btn btn-register">Register</a>
-                <a href="/login" class="btn btn-signin">Sign in</a>
-            </div>
-        </div>
-    </div>
-</header>
+<div th:replace="~{commons :: header}"></div>
 
 <section class="mt-5">
     <div class="container">
@@ -37,15 +23,14 @@
                             <div class="indexItemInfo-id">Group ID: 10127741</div>
                         </div>
                     </div>
-                    <button class="btn btn-primary create-project-btn">Create project</button>
-
+                    <a href="/project/edit" class="btn btn-primary create-project-btn btnCenter">Create project</a>
                 </div>
                 <div class="row">
                     <div class="indexDescription">Deploy application to production in less than 5 minutes</div>
                 </div>
                 <div class="row">
-                    <form action="/search" class="searchForm">
-                        <input type="text" class="searchField fieldItemInput" placeholder="Search">
+                    <form action="/project" class="searchForm">
+                        <input type="text" class="searchField fieldItemInput" placeholder="Search" name="searchPhrase">
                         <input type="submit" value="Search" class="btn btn-primary btn-search">
                     </form>
                 </div>
@@ -57,8 +42,8 @@
                             <div class="table-cell project-image">P</div>
                             <div class="table-cell project-details">
                                 <div class="project-title" th:text=${entity.name}>Project Title</div>
-                                <div class="project-description" th:text=${entity.description}>Project description goes
-                                    here...
+                                <div class="project-description" th:text=${entity.description}>
+                                    Project description goes here...
                                 </div>
                             </div>
                             <div class="table-cell project-status" th:text=${entity.status}>Status</div>
@@ -66,17 +51,17 @@
                                 <span class="project-members-icon">👥</span>
                                 <span class="project-members-count" th:text="${entity.getMembers().size()}">5</span>
                             </div>
-                            <div class="table-cell project-author" th:text=${entity.owner}>Author</div>
+                            <div class="table-cell project-author"
+                                 th:text="${entity.owner.firstname} + ' ' + ${entity.owner.lastname}">Author</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
 
-<footer></footer>
+<div th:replace="~{commons :: footer}"></div>
 
 </body>
 </html>

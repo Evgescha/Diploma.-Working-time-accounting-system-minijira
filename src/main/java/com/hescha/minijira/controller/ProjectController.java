@@ -1,6 +1,7 @@
 package com.hescha.minijira.controller;
 
 import com.hescha.minijira.model.Project;
+import com.hescha.minijira.model.User;
 import com.hescha.minijira.service.BoardService;
 import com.hescha.minijira.service.ProjectService;
 import com.hescha.minijira.service.SecurityService;
@@ -8,11 +9,7 @@ import com.hescha.minijira.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -37,8 +34,13 @@ public class ProjectController {
     private final SecurityService securityService;
 
     @GetMapping
-    public String readAll(Model model) {
-        model.addAttribute("list", service.readAll());
+    public String readAll(Model model, @RequestParam(value = "searchPhrase", required = false) String searchPhrase) {
+        if (searchPhrase == null) {
+            model.addAttribute("list", service.readAll());
+        } else {
+            model.addAttribute("list", service.findByNameContains(searchPhrase));
+        }
+
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 
@@ -68,7 +70,9 @@ public class ProjectController {
     public String save(@ModelAttribute Project entity, RedirectAttributes ra) {
         if (entity.getId() == null) {
             try {
-                entity.setOwner(securityService.getLoggedIn());
+                User owner = securityService.getLoggedIn();
+                entity.setOwner(owner);
+                entity.getMembers().add(owner);
                 Project createdEntity = service.create(entity);
                 ra.addFlashAttribute(MESSAGE, "Creating is successful");
                 return REDIRECT_TO_ALL_ITEMS + "/" + createdEntity.getId();
