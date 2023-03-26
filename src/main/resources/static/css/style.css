@@ -190,12 +190,15 @@ font-size: 1.4375rem;
   margin-right: 5px;
 }
 .project-members-count {
-  /* стили для количества участников */
+
 }
 .project-author {
-  /* стили для автора проекта */
-}
 
+}
+.projectMenu{
+    display: flex;
+    justify-content: space-between;
+}
 
 
 

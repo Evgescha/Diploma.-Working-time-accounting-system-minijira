@@ -3,6 +3,7 @@ package com.hescha.minijira.model;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -19,8 +20,10 @@ import java.util.Set;
 public class User extends AbstractEntity {
     private String firstname;
     private String lastname;
+    @Column(unique = true, nullable = false)
     private String username;
     private String email;
+    @Column(unique = true, nullable = false)
     private String password;
     private String image;
 
@@ -31,4 +34,14 @@ public class User extends AbstractEntity {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Comment> comments = new ArrayList<>();
     private LocalDateTime dateCreated;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + getId() +
+                ", firstname='" + (firstname == null ? "" : firstname) + '\'' +
+                ", lastname='" + (lastname == null ? "" : lastname) + '\'' +
+                ", username='" + (username == null ? "" : username) + '\'' +
+                ", email='" + (email == null ? "" : email) + '\'';
+    }
 }

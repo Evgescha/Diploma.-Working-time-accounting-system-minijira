@@ -17,34 +17,47 @@
         <div class="header-content">
             <a href="/" class="header-logo">🏠</a>
             <div class="header-buttons">
-                <a href="/registration" class="btn btn-register">Register</a>
-                <a href="/login" class="btn btn-signin">Sign in</a>
+                <a href="/registration" class="btn btn-register" th:if="${#request.userPrincipal ==null}">Register</a>
+                <a href="/login" class="btn btn-signin" th:if="${#request.userPrincipal ==null}">Sign in</a>
+                <a href="/logout" class="btn btn-signin" th:if="${#request.userPrincipal !=null}">Log out</a>
             </div>
         </div>
     </div>
 </header>
 
-
 <div class="col-4" th:fragment="left-menu">
     <ul class="left-menu">
         <li>
-            <span class="menu-icon">📊</span>
-            <a href="/activity">Активность проекта</a>
+            <span class="menu-icon">📈</span>
+            <a href="/activity">Project activity</a>
+        </li>
+        <li>
+            <span class="menu-icon">⌛</span>
+            <a href="/board">Time board</a>
+        </li>
+        <li>
+            <span class="menu-icon">🚦</span>
+            <a href="/column">Board column</a>
+        </li>
+        <li>
+            <span class="menu-icon">💬</span>
+            <a href="/comment">Comments</a>
+        </li>
+        <li>
+            <span class="menu-icon">📝</span>
+            <a href="/issue">Issues</a>
+        </li>
+        <li>
+            <span class="menu-icon">📌</span>
+            <a href="/label">Labels</a>
         </li>
         <li>
             <span class="menu-icon">👥</span>
-            <a href="/members">участники</a>
-        </li>
-        <li>
-            <span class="menu-icon">⏱️</span>
-            <a href="/time-tracking">Учет времени</a>
-        </li>
-        <li>
-            <span class="menu-icon">⚙️</span>
-            <a href="/settings">Настройка проекта</a>
+            <a href="/user">Users</a>
         </li>
     </ul>
 </div>
+
 
 <footer class="footer-section" th:fragment="footer">
 </footer>

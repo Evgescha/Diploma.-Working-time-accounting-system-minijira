@@ -3,6 +3,7 @@ package com.hescha.minijira.controller;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.service.BoardService;
 import com.hescha.minijira.service.ProjectService;
+import com.hescha.minijira.service.SecurityService;
 import com.hescha.minijira.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ public class ProjectController {
 
     private final UserService userService;
     private final BoardService boardService;
+    private final SecurityService securityService;
 
     @GetMapping
     public String readAll(Model model) {
@@ -66,6 +68,7 @@ public class ProjectController {
     public String save(@ModelAttribute Project entity, RedirectAttributes ra) {
         if (entity.getId() == null) {
             try {
+                entity.setOwner(securityService.getLoggedIn());
                 Project createdEntity = service.create(entity);
                 ra.addFlashAttribute(MESSAGE, "Creating is successful");
                 return REDIRECT_TO_ALL_ITEMS + "/" + createdEntity.getId();

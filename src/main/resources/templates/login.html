@@ -17,7 +17,8 @@
 				</div>
 			</div>
 		</div>
-		<form action="/login" class="singin">
+		<h3 th:if="${#request.getParameter('error') != null and #request.getParameter('error') == 'true'}" class="text-center"></h3>
+		<form action="/login" method="post" class="singin">
 			<div class="row">
 				<div class="col-md-8 mx-auto">
 					<div class="form">

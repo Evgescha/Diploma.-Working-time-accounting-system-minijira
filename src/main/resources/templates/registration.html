@@ -17,7 +17,8 @@
 				</div>
 			</div>
 		</div>
-		<form action="/registration" class="singin">
+		<h3 th:if="${success != null}" th:text="${success}" class="text-center"></h3>
+		<form action="/registration" class="singin" method="post">
 			<div class="row">
 				<div class="col-md-8 mx-auto">
 					<div class="form">
@@ -26,11 +27,11 @@
 								<div class="combiner">
 								<div class="fieldItem">
 	  								<label for="firstName" class="fieldItemLabel">First name</label>
-									<input id="firstName" name="firstName" type="text" class="fieldItemInput"/>
+									<input id="firstName" name="firstname" type="text" class="fieldItemInput"/>
 								</div>
 								<div class="fieldItem">
 	  								<label for="lastName" class="fieldItemLabel">Last name</label>
-									<input id="lastName" name="lastName" type="text" class="fieldItemInput"/>
+									<input id="lastName" name="lastname" type="text" class="fieldItemInput"/>
 								</div>
 							</div>
 						</div>
