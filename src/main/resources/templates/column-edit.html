@@ -1,31 +1,47 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Column</title>
+    <title th:text="${entity.id == null} ? 'Create Column' : 'Edit Column'"></title>
+    <div th:replace="~{commons :: head}"></div>
 </head>
 <body>
-<h1>Edit Column</h1>
-<h3 th:if="${message != null}" th:text="${message}">Message</h3>
-<form th:action="@{/column}" th:object="${entity}" method="post">
 
-    <p>
-        <label for="name">name:</label>
-        <input type="text" th:field="*{name}" id="name" required>
-    </p>
-    <p>
-        <label for="issues">issues:</label>
-        <select multiple="multiple" th:field="*{issues}" id="issues">
-            <option th:each="issues_item : ${issues_list}" th:value="${issues_item}" th:text="${issues_item}"></option>
-        </select>
-    </p>
+<div th:replace="~{commons :: header}"></div>
 
-    <p>
-        <input type="text" th:field="*{id}" id="id">
-        <input type="submit" value="Save">
-        <a th:href="@{/column}">Cancel</a>
-    </p>
-</form>
+<section class="mt-5">
+    <div class="container">
+        <div class="row">
+            <div th:replace="~{commons :: left-menu}">
+            </div>
+            <div class="col-md-8">
+                <h1 th:if="${entity.id == null}">
+                    Create Column
+                </h1>
+                <h1 th:if="${entity.id != null}">
+                    Edit Column
+                </h1>
+                <form action="/column" th:object="${entity}" method="post">
+                    <div class="form-group">
+                        <column for="name">
+                            Name:
+                        </column>
+                        <input type="text" th:field="*{name}" class="form-control" id="name" required>
+                    </div>
+                    <div class="form-group" hidden>
+                        <input type="text" th:field="*{id}" class="form-control" id="id" name="id">
+                        <input type="text" th:value="${project.id}" class="form-control" id="projectId" name="projectId">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save Column" class="btn btn-primary">
+                        <button onclick="history.back()" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{commons :: footer}"></div>
 
 </body>
 </html>
