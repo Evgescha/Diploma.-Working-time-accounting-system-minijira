@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -45,23 +46,19 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public String read(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("entity", service.read(id));
+        model.addAttribute("project", service.read(id));
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
     }
 
     @GetMapping(path = {"/edit", "/edit/{id}"})
     public String editPage(Model model, @PathVariable(name = "id", required = false) Long id) {
         if (id == null) {
-            model.addAttribute("entity", new Project());
+            model.addAttribute("project", new Project());
         } else {
-            model.addAttribute("entity", service.read(id));
+            model.addAttribute("project", service.read(id));
         }
 
         model.addAttribute("projectStatusType_list", List.of());
-        model.addAttribute("user", userService.readAll());
-        model.addAttribute("board_list", boardService.readAll());
-        model.addAttribute("user_list", userService.readAll());
-
         return THYMELEAF_TEMPLATE_EDIT_PAGE;
     }
 
@@ -90,6 +87,7 @@ public class ProjectController {
             User owner = securityService.getLoggedIn();
                 entity.setOwner(owner);
                 entity.getMembers().add(owner);
+                entity.setDateCreated(LocalDateTime.now());
             Project createdEntity = service.create(entity);
             owner.getOwnProjects().add(createdEntity);
             userService.update(owner);

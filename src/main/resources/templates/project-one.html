@@ -1,59 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>View Project</title>
-    <meta charset="UTF-8">
+    <div th:replace="~{commons :: head}"></div>
 </head>
 <body>
-<h1>Project Details</h1>
-<h3 th:if="${message!=null}" th:text="${message}">Message</h3>
-<table>
-    <tr>
-        <th>name:</th>
-        <td th:text="${entity.name}"></td>
-    </tr>
-    <tr>
-        <th>description:</th>
-        <td th:text="${entity.description}"></td>
-    </tr>
-    <tr>
-        <th>image:</th>
-        <td th:text="${entity.image}"></td>
-    </tr>
-    <tr>
-        <th>status:</th>
-        <td th:text="${entity.status}"></td>
-    </tr>
-    <tr>
-        <th>members:</th>
-        <td>
-            <ul>
-                <li th:each="members_item : ${entity.members}" th:text="${members_item}"></li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>board:</th>
-        <td th:text="${entity.board}"></td>
-    </tr>
-    <tr>
-        <th>owner:</th>
-        <td th:text="${entity.owner}"></td>
-    </tr>
-    <tr>
-        <th>dateCreated:</th>
-        <td th:text="${entity.dateCreated}"></td>
-    </tr>
 
+<div th:replace="~{commons :: header}"></div>
 
-</table>
-<br>
-<a th:href="@{/project}">Back to the List</a>
-<a th:href="@{/project/edit/{id}(id=${entity.id})}">Edit</a>
-<form th:if="${entity.id!=null}" method="get"
-      th:action="'/project/'
-               + ${entity.id} + '/delete'">
-    <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
-</form>
+<section class="mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- left menu -->
+            <div th:replace="~{commons :: left-menu}"></div>
+            <!-- projects list -->
+            <div class="col-8">
+                <h1 class="project-title" th:text="${project.name}">Project Title</h1>
+                <div class="mt-4">
+                    <a th:href="@{/project}" class="btn btn-primary">Back to the List</a>
+                    <a th:href="@{/project/edit/{id}(id=${project.id})}" class="btn btn-warning">Edit</a>
+                    <form th:if="${project.id!=null}" method="get"
+                          th:action="'/project/' + ${project.id} + '/delete'"
+                          class="d-inline">
+                        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                    </form>
+                </div>
+                <div class="project-info">
+                    <div class="table-cell project-image">
+                        <img th:src="${project.image}" width="300" height="300" alt="Project image"/>
+                    </div>
+                    <div class="table-cell project-details">
+                        <p class="project-author" th:text="'Project owner: ' + ${project.owner.firstname} + ' ' + ${project.owner.lastname}">Owner</p>
+                        <p class="project-status" th:text="'Status: ' + ${project.status}">Status</p>
+                        <p th:text="${project.dateCreated}">Date Created</p>
+                        <p class="project-description" th:text="${project.description}">Description</p>
+                    </div>
+                </div>
+
+                <h2 class="mt-4">Members</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>FirstName</th>
+                        <th>Last Name</th>
+                        <th th:if="${#authentication.principal.username == project.owner.username}">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="member : ${project.members}">
+                        <td>
+                            <img th:src="${member.image}" width="60" height="60" alt="Member photo"/>
+                        </td>
+                        <td th:text="${member.firstname}">John</td>
+                        <td th:text="${member.lastname}">Doe</td>
+                        <td th:if="${#authentication.principal.username == project.owner.username
+      and member.username != #authentication.principal.username}">
+                            <a th:href="@{'/project/' + ${entity.id} + '/remove-member/' + ${member.id}}"
+                               class="btn btn-danger">Remove</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+<div th:replace="~{commons :: footer}"></div>
 </body>
 </html>

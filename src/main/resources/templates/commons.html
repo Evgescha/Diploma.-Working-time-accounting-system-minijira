@@ -15,11 +15,14 @@
 <header id="header" class="header-area main-header" th:fragment="nav">
     <div class="container">
         <div class="header-content">
-            <a href="/" class="header-logo">🏠</a>
+            <div>
+                <a href="/" class="header-logo">🏠</a>
+                <a href="/user" class="btn " th:if="${#request.userPrincipal != null}">👥</a>
+            </div>
             <div class="header-buttons">
-                <a href="/registration" class="btn btn-register" th:if="${#request.userPrincipal ==null}">Register</a>
-                <a href="/login" class="btn btn-signin" th:if="${#request.userPrincipal ==null}">Sign in</a>
-                <a href="/logout" class="btn btn-signin" th:if="${#request.userPrincipal !=null}">Log out</a>
+                <a href="/registration" class="btn btn-register" th:if="${#request.userPrincipal == null}">Register</a>
+                <a href="/login" class="btn btn-signin" th:if="${#request.userPrincipal == null}">Sign in</a>
+                <a href="/logout" class="btn btn-signin" th:if="${#request.userPrincipal != null}">Log out</a>
             </div>
         </div>
     </div>
@@ -29,31 +32,23 @@
     <ul class="left-menu">
         <li>
             <span class="menu-icon">📈</span>
-            <a href="/activity">Project activity</a>
+            <a th:href="'/project/' + ${project.id} + '/activity'">Project activity</a>
         </li>
         <li>
             <span class="menu-icon">⌛</span>
-            <a href="/board">Time board</a>
-        </li>
-        <li>
-            <span class="menu-icon">🚦</span>
-            <a href="/column">Board column</a>
-        </li>
-        <li>
-            <span class="menu-icon">💬</span>
-            <a href="/comment">Comments</a>
+            <a th:href="'/project/' + ${project.id} + '/board'">Time board</a>
         </li>
         <li>
             <span class="menu-icon">📝</span>
-            <a href="/issue">Issues</a>
+            <a th:href="'/project/' + ${project.id} + '/issue'">Issues</a>
+        </li>
+        <li>
+            <span class="menu-icon">🚦</span>
+            <a th:href="'/project/' + ${project.id} + '/column'">Column</a>
         </li>
         <li>
             <span class="menu-icon">📌</span>
-            <a href="/label">Labels</a>
-        </li>
-        <li>
-            <span class="menu-icon">👥</span>
-            <a href="/user">Users</a>
+            <a th:href="'/project/' + ${project.id} + '/label'">Labels</a>
         </li>
     </ul>
 </div>
