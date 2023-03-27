@@ -1,35 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Label</title>
+    <title>
+        Edit Label
+    </title>
+    <div th:replace="~{commons :: head}">
+    </div>
 </head>
 <body>
-<h1>Edit Label</h1>
-<h3 th:if="${message != null}" th:text="${message}">Message</h3>
-<form th:action="@{/label}" th:object="${entity}" method="post">
-
-    <p>
-        <label for="name">name:</label>
-        <input type="text" th:field="*{name}" id="name" required>
-    </p>
-    <p>
-        <label for="description">description:</label>
-        <input type="text" th:field="*{description}" id="description" required>
-    </p>
-    <p>
-        <label for="issues">issues:</label>
-        <select multiple="multiple" th:field="*{issues}" id="issues">
-            <option th:each="issues_item : ${issues_list}" th:value="${issues_item}" th:text="${issues_item}"></option>
-        </select>
-    </p>
-
-    <p>
-        <input type="text" th:field="*{id}" id="id">
-        <input type="submit" value="Save">
-        <a th:href="@{/label}">Cancel</a>
-    </p>
-</form>
-
+<div th:replace="~{commons :: header}">
+</div>
+<section class="mt-5">
+    <div class="container">
+        <div class="row">
+            <div th:replace="~{commons :: left-menu}">
+            </div>
+            <div class="col-md-8" th:classappend="${entity.id == null} ? 'offset-md-2' : ''">
+                <h1 th:if="${entity.id == null}">
+                    Create Label
+                </h1>
+                <h1 th:if="${entity.id != null}">
+                    Edit Label
+                </h1>
+                <form action="/label" th:object="${entity}" method="post">
+                    <div class="form-group">
+                        <label for="name">
+                            Name:
+                        </label>
+                        <input type="text" th:field="*{name}" class="form-control" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">
+                            Description:
+                        </label>
+                        <textarea type="text" th:field="*{description}" class="form-control" id="description" required></textarea>
+                    </div>
+                    <div class="form-group" hidden>
+                        <input type="text" th:field="*{id}" class="form-control" id="id" name="id">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save Label" class="btn btn-primary">
+                        <a th:href="@{/label}" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:replace="~{commons :: footer}">
+</div>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.hescha.minijira.service;
 
-import com.hescha.minijira.model.Board;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.model.ProjectStatusType;
 import com.hescha.minijira.model.User;
@@ -50,10 +49,6 @@ public class ProjectService extends CrudService<Project> {
 
     public List<Project> findByMembersContains(com.hescha.minijira.model.User members) {
         return repository.findByMembersContains(members);
-    }
-
-    public Project findByBoard(Board board) {
-        return repository.findByBoard(board);
     }
 
     public Project findByOwner(User owner) {

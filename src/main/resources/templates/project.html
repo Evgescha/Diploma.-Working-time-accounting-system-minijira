@@ -15,16 +15,13 @@
             <div class="col-8 m-auto">
                 <div class="row projectMenu">
                     <div class="indexItemInfo">
-                        <div class="indexItemInfo-image">5</div>
+                        <div class="indexItemInfo-image">P</div>
                         <div class="indexItemInfo-data">
-                            <div class="indexItemInfo-title">5 minute production app</div>
-                            <div class="indexItemInfo-id">Group ID: 10127741</div>
+                            <div class="indexItemInfo-title">List of the projects</div>
+                            <div class="indexItemInfo-id">Create and manage your time</div>
                         </div>
                     </div>
                     <a href="/project/edit" class="btn btn-primary create-project-btn btnCenter">Create project</a>
-                </div>
-                <div class="row">
-                    <div class="indexDescription">Deploy application to production in less than 5 minutes</div>
                 </div>
                 <div class="row">
                     <form action="/project" class="searchForm">
@@ -46,7 +43,7 @@
                             <a class="table-cell project-details"
                                th:href="'/project/'+${entity.id}">
                                 <div class="project-title" th:text=${entity.name}>Project Title</div>
-                                <div class="project-description" th:text=${entity.description}>
+                                <div class="project-description" th:text="${#strings.abbreviate(entity.description, 60)}">
                                     Project description goes here...
                                 </div>
                             </a>

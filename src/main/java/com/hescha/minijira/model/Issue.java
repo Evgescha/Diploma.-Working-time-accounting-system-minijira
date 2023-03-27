@@ -15,8 +15,6 @@ import java.util.List;
 @Table
 @Entity
 public class Issue extends AbstractEntity {
-    @ManyToOne
-    private Board board;
     private String name;
     private String description;
     @ManyToOne
@@ -33,6 +31,8 @@ public class Issue extends AbstractEntity {
     private List<Issue> related = new ArrayList<>();
     @OneToMany
     private List<Activity> activities = new ArrayList<>();
+    @ManyToOne
+    private Project project;
     private Integer timeSpend;
     private LocalDateTime dateCreated;
     private IssueStatus status = IssueStatus.CREATED;

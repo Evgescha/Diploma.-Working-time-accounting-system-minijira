@@ -2,7 +2,6 @@ package com.hescha.minijira.controller;
 
 import com.hescha.minijira.model.Issue;
 import com.hescha.minijira.service.ActivityService;
-import com.hescha.minijira.service.BoardService;
 import com.hescha.minijira.service.ColumnService;
 import com.hescha.minijira.service.CommentService;
 import com.hescha.minijira.service.IssueService;
@@ -35,7 +34,6 @@ public class IssueController {
 
     private final IssueService service;
 
-    private final BoardService boardService;
     private final ColumnService columnService;
     private final LabelService labelService;
     private final CommentService commentService;
@@ -63,7 +61,6 @@ public class IssueController {
             model.addAttribute("entity", service.read(id));
         }
 
-        model.addAttribute("board_list", boardService.readAll());
         model.addAttribute("column_list", columnService.readAll());
         model.addAttribute("label", labelService.readAll());
         model.addAttribute("comment", commentService.readAll());

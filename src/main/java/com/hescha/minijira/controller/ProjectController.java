@@ -2,7 +2,6 @@ package com.hescha.minijira.controller;
 
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.model.User;
-import com.hescha.minijira.service.BoardService;
 import com.hescha.minijira.service.ProjectService;
 import com.hescha.minijira.service.SecurityService;
 import com.hescha.minijira.service.UserService;
@@ -30,7 +29,6 @@ public class ProjectController {
 
     private final ProjectService service;
     private final UserService userService;
-    private final BoardService boardService;
     private final SecurityService securityService;
 
     @GetMapping

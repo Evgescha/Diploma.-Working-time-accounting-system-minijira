@@ -28,7 +28,7 @@
     </div>
 </header>
 
-<div class="col-4" th:fragment="left-menu">
+<div class="col-4" th:fragment="left-menu" th:if="${project.id != null}">
     <ul class="left-menu">
         <li>
             <span class="menu-icon">📈</span>

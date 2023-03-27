@@ -1,6 +1,5 @@
 package com.hescha.minijira.repository;
 
-import com.hescha.minijira.model.Board;
 import com.hescha.minijira.model.Column;
 import com.hescha.minijira.model.Issue;
 import com.hescha.minijira.model.IssueStatus;
@@ -13,8 +12,6 @@ import java.util.List;
 
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, Long> {
-    Issue findByBoard(Board board);
-
     List<Issue> findByName(String name);
 
     List<Issue> findByNameContains(String name);

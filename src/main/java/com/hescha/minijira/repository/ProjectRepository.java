@@ -1,6 +1,5 @@
 package com.hescha.minijira.repository;
 
-import com.hescha.minijira.model.Board;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.model.ProjectStatusType;
 import com.hescha.minijira.model.User;
@@ -27,8 +26,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     Project findByStatus(ProjectStatusType status);
 
     List<Project> findByMembersContains(com.hescha.minijira.model.User members);
-
-    Project findByBoard(Board board);
 
     Project findByOwner(User owner);
 

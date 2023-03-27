@@ -1,6 +1,5 @@
 package com.hescha.minijira.service;
 
-import com.hescha.minijira.model.Board;
 import com.hescha.minijira.model.Column;
 import com.hescha.minijira.model.Issue;
 import com.hescha.minijira.model.IssueStatus;
@@ -19,10 +18,6 @@ public class IssueService extends CrudService<Issue> {
     public IssueService(IssueRepository repository) {
         super(repository);
         this.repository = repository;
-    }
-
-    public Issue findByBoard(Board board) {
-        return repository.findByBoard(board);
     }
 
     public List<Issue> findByName(String name) {
@@ -93,7 +88,7 @@ public class IssueService extends CrudService<Issue> {
     }
 
     private void updateFields(Issue entity, Issue read) {
-        read.setBoard(entity.getBoard());
+        read.setProject(entity.getProject());
         read.setName(entity.getName());
         read.setDescription(entity.getDescription());
         read.setColumn(entity.getColumn());
