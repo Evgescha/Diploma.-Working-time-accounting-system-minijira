@@ -38,15 +38,6 @@ public class Project extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "id=" + getId() +
-                ", name='" + (name == null ? "" : name) + '\'' +
-                ", description='" + (description == null ? "" : description) + '\'' +
-                ", image='" + (image == null ? "" : image) + '\'' +
-                ", status=" + status +
-                ", members=" + (members.size()==0 ? "" : members) +
-                ", owner=" + (owner == null ? "" : owner) +
-                ", dateCreated=" + (dateCreated == null ? "" : dateCreated) +
-                '}';
+        return id + "";
     }
 }

@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>
-        Edit Label
-    </title>
-    <div th:replace="~{commons :: head}">
-    </div>
+    <title th:text="${entity.id == null} ? 'Create Label' : 'Edit Label'"></title>
+    <div th:replace="~{commons :: head}"></div>
 </head>
 <body>
-<div th:replace="~{commons :: header}">
-</div>
+
+<div th:replace="~{commons :: header}"></div>
+
 <section class="mt-5">
     <div class="container">
         <div class="row">
             <div th:replace="~{commons :: left-menu}">
             </div>
-            <div class="col-md-8" th:classappend="${entity.id == null} ? 'offset-md-2' : ''">
+            <div class="col-md-8">
                 <h1 th:if="${entity.id == null}">
                     Create Label
                 </h1>
@@ -33,23 +31,23 @@
                         <label for="description">
                             Description:
                         </label>
-                        <textarea type="text" th:field="*{description}" class="form-control" id="description" required></textarea>
+                        <input type="text" th:field="*{description}" class="form-control" id="description" required>
                     </div>
                     <div class="form-group" hidden>
                         <input type="text" th:field="*{id}" class="form-control" id="id" name="id">
+                        <input type="text" th:value="${project.id}" class="form-control" id="projectId" name="projectId">
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Save Label" class="btn btn-primary">
-                        <a th:href="@{/label}" class="btn btn-secondary">
-                            Cancel
-                        </a>
+                        <button onclick="history.back()" class="btn btn-secondary">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </section>
-<div th:replace="~{commons :: footer}">
-</div>
+
+<div th:replace="~{commons :: footer}"></div>
+
 </body>
 </html>

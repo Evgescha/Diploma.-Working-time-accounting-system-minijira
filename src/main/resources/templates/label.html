@@ -1,44 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>List of Label</title>
-    <meta charset="UTF-8">
+    <title>List of Labels</title>
+    <div th:replace="~{commons :: head}"></div>
 </head>
 <body>
-<h1>List of Label</h1>
-<h3 th:if="${message != null}" th:text="${message}">Message</h3>
-<a th:href="@{/label/edit}">Create new Label</a>
-<table>
-    <thead>
-    <tr>
-        <th>name</th>
-        <th>description</th>
-        <th>issues</th>
 
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="entity : ${list}">
-        <td th:text=${entity.name}></td>
-        <td th:text=${entity.description}></td>
-        <td>
-            <ul>
-                <li th:each="issues_item : ${entity.issues}" th:text="${issues_item}"></li>
-            </ul>
-        </td>
+<div th:replace="~{commons :: header}"></div>
 
-        <td>
-            <a th:href="@{/label/{id}(id=${entity.id})}">See detail</a>
-            <a th:href="@{/label/edit/{id}(id=${entity.id})}">Edit</a>
-            <form th:if="${entity.id!=null}" method="get"
-                  th:action="'/label/'
-                  +${entity.id}+'/delete'">
-                <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<section class="mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- left menu -->
+            <div th:replace="~{commons :: left-menu}"></div>
+            <!-- projects list -->
+            <div class="col-8 m-auto">
+                <h1>List of Labels</h1>
+                <h3 th:if="${message != null}" th:text="${message}">Message</h3>
+                <a th:href="@{/label/{id}/edit(id=${project.id})}" class="btn btn-primary mb-3">Create new Label</a>
+                <div class="table-container">
+                    <div class="table-row table-header">
+                        <div class="table-cell">Name</div>
+                        <div class="table-cell">Description</div>
+                        <div class="table-cell">Actions</div>
+                    </div>
+                    <div class="table-row" th:each="entity : ${list}">
+                        <div class="table-cell" th:text=${entity.name}></div>
+                        <div class="table-cell" th:text=${entity.description}></div>
+                        <div class="table-cell">
+                            <a th:href="@{/label/{id}/edit/{labelId}(id=${project.id}, labelId=${entity.id})}" class="btn btn-warning btn-sm">Edit</a>
+                            <form th:if="${entity.id!=null}" method="get"
+                                  th:action="'/label/'+${entity.id}+'/delete'"
+                                  class="d-inline">
+                                <input type="submit" value="Delete" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{commons :: footer}"></div>
+
 </body>
 </html>
