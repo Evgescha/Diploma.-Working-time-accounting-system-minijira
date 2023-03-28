@@ -3,6 +3,7 @@ package com.hescha.minijira.controller;
 import com.hescha.minijira.model.User;
 import com.hescha.minijira.service.CommentService;
 import com.hescha.minijira.service.ProjectService;
+import com.hescha.minijira.service.SecurityService;
 import com.hescha.minijira.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -31,11 +32,18 @@ public class UserController {
 
     private final ProjectService projectService;
     private final CommentService commentService;
+    private final SecurityService securityService;
 
     @GetMapping
     public String readAll(Model model) {
         model.addAttribute("list", service.readAll());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
+    }
+
+    @GetMapping("/current")
+    public String readCurrent(Model model) {
+        model.addAttribute("entity", securityService.getLoggedIn());
+        return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
     }
 
     @GetMapping("/{id}")

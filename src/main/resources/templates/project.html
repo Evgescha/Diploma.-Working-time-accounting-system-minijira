@@ -30,38 +30,7 @@
                     </form>
                 </div>
                 <div class="row">
-                    <div class="table-container">
-                        <div class="table-row" th:each="entity : ${list}">
-                            <div class="table-cell project-image"
-                                 th:if="${entity.image == ''}"
-                                 th:text="${entity.name.charAt(0)}">P
-                            </div>
-                            <div class="table-cell project-image"
-                                 th:if="${entity.image != null and entity.image != ''}">
-                                <img th:src="${entity.image}" width="60" height="60">
-                            </div>
-                            <a class="table-cell project-details"
-                               th:href="'/project/'+${entity.id}">
-                                <div class="project-title" th:text=${entity.name}>Project Title</div>
-                                <div class="project-description" th:text="${#strings.abbreviate(entity.description, 60)}">
-                                    Project description goes here...
-                                </div>
-                            </a>
-                            <div class="table-cell project-status" th:text=${entity.status}>Status</div>
-                            <div class="table-cell project-members">
-                                <span class="project-members-icon">👥</span>
-                                <span class="project-members-count" th:text="${entity.getMembers().size()}">5</span>
-                            </div>
-                            <div class="table-cell project-author"
-                                 th:text="${entity.owner.firstname} + ' ' + ${entity.owner.lastname}">
-                                Author
-                            </div>
-                            <a class="table-cell project-details"
-                               th:href="'/project/edit/'+${entity.id}">
-                                Edit
-                            </a>
-                        </div>
-                    </div>
+                    <div th:replace="~{commons :: project-list(projectList=${list})}"></div>
                 </div>
             </div>
         </div>

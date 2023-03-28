@@ -83,9 +83,8 @@ public class ProjectController {
     private String createEntity(Project entity, RedirectAttributes ra) {
         try {
             User owner = securityService.getLoggedIn();
-                entity.setOwner(owner);
-                entity.getMembers().add(owner);
-                entity.setDateCreated(LocalDateTime.now());
+            entity.setOwner(owner);
+            entity.setDateCreated(LocalDateTime.now());
             Project createdEntity = service.create(entity);
             owner.getOwnProjects().add(createdEntity);
             userService.update(owner);

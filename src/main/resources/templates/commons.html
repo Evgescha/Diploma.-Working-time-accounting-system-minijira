@@ -22,6 +22,7 @@
             <div class="header-buttons">
                 <a href="/registration" class="btn btn-register" th:if="${#request.userPrincipal == null}">Register</a>
                 <a href="/login" class="btn btn-signin" th:if="${#request.userPrincipal == null}">Sign in</a>
+                <a href="/user/current" class="btn btn-signin" th:if="${#request.userPrincipal != null}">Profile</a>
                 <a href="/logout" class="btn btn-signin" th:if="${#request.userPrincipal != null}">Log out</a>
             </div>
         </div>
@@ -53,6 +54,39 @@
     </ul>
 </div>
 
+
+<div class="table-container" th:fragment="project-list">
+    <div class="table-row" th:each="listItem : ${projectList}">
+        <div class="table-cell project-image"
+             th:if="${listItem.image == ''}"
+             th:text="${listItem.name.charAt(0)}">P
+        </div>
+        <div class="table-cell project-image"
+             th:if="${listItem.image != null and listItem.image != ''}">
+            <img th:src="${listItem.image}" width="60" height="60">
+        </div>
+        <a class="table-cell project-details"
+           th:href="'/project/'+${listItem.id}">
+            <div class="project-title" th:text=${listItem.name}>Project Title</div>
+            <div class="project-description" th:text="${#strings.abbreviate(listItem.description, 60)}">
+                Project description goes here...
+            </div>
+        </a>
+        <div class="table-cell project-status" th:text=${listItem.status}>Status</div>
+        <div class="table-cell project-members">
+            <span class="project-members-icon">👥</span>
+            <span class="project-members-count" th:text="${listItem.getMembers().size() + 1}">5</span>
+        </div>
+        <div class="table-cell project-author">
+            <a th:href="'/user/' + ${listItem.id}" th:text="${listItem.owner.firstname} + ' ' + ${listItem.owner.lastname}">Author</a>
+        </div>
+        <a class="table-cell project-details btn"
+           th:href="'/project/edit/'+${listItem.id}"
+           th:if="${#request.userPrincipal != null and #request.userPrincipal.getName().equals(listItem.owner.username)}">
+            Edit
+        </a>
+    </div>
+</div>
 
 <footer class="footer-section" th:fragment="footer">
 </footer>
