@@ -10,6 +10,8 @@ import java.util.Set;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByUsernameContainsOrFirstnameContainsOrLastnameContains(String username, String firstname, String lastname);
+
     List<User> findByFirstname(String firstname);
 
     List<User> findByFirstnameContains(String firstname);

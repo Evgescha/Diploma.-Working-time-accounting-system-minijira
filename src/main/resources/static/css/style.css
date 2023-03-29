@@ -206,5 +206,7 @@ font-size: 1.4375rem;
 .textCenter{
     text-align: center;
 }
-
+.width100{
+    width: 100%;
+}
 

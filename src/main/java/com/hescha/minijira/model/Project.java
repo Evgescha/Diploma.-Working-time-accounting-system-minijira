@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Table
@@ -37,7 +38,28 @@ public class Project extends AbstractEntity {
     private LocalDateTime dateCreated;
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Project project = (Project) o;
+        return Objects.equals(name, project.name)
+                && Objects.equals(description, project.description)
+                && Objects.equals(image, project.image)
+                && status == project.status
+                && Objects.equals(owner, project.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, description, image, status, owner);
+    }
+
+    @Override
     public String toString() {
-        return id + "";
+        return "Project{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

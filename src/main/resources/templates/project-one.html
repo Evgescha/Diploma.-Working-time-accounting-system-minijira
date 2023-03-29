@@ -22,7 +22,8 @@
                     <form th:if="${project.id!=null}" method="get"
                           th:action="'/project/' + ${project.id} + '/delete'"
                           class="d-inline">
-                        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure?')">
+                        <input type="submit" value="Delete" class="btn btn-danger"
+                               onclick="return confirm('Are you sure?')">
                     </form>
                 </div>
                 <div class="project-info">
@@ -30,7 +31,9 @@
                         <img th:src="${project.image}" width="300" height="300" alt="Project image"/>
                     </div>
                     <div class="table-cell project-details">
-                        <p class="project-author" th:text="'Project owner: ' + ${project.owner.firstname} + ' ' + ${project.owner.lastname}">Owner</p>
+                        <p class="project-author"
+                           th:text="'Project owner: ' + ${project.owner.firstname} + ' ' + ${project.owner.lastname}">
+                            Owner</p>
                         <p class="project-status" th:text="'Status: ' + ${project.status}">Status</p>
                         <p th:text="${project.dateCreated}">Date Created</p>
                         <p class="project-description" th:text="${project.description}">Description</p>
@@ -56,7 +59,7 @@
                         <td th:text="${member.lastname}">Doe</td>
                         <td th:if="${#authentication.principal.username == project.owner.username
       and member.username != #authentication.principal.username}">
-                            <a th:href="@{'/project/' + ${entity.id} + '/remove-member/' + ${member.id}}"
+                            <a th:href="@{'/project/' + ${project.id} + '/removemember/' + ${member.id}}"
                                class="btn btn-danger">Remove</a>
                         </td>
                     </tr>
@@ -65,8 +68,130 @@
             </div>
         </div>
     </div>
+</section>
+
+
+<section class="mt-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-4 col-8">
+                <h3>Search and add users in your project</h3>
+                <div class="table-container" th:fragment="member-list">
+                    <div class="input-group mb-3">
+                        <input type="text" id="searchInput" class="form-control"
+                               placeholder="Search members by username"/>
+                        <button id="filterBtn" type="button" class="btn btn-primary">Filter</button>
+                    </div>
+                    <div class="table-row">
+                        <table class="width100">
+                            <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Username</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <td>Action</td>
+                            </tr>
+                            </thead>
+                            <tbody id="membersTableBody">
+                            <tr th:each="listItem : ${users}">
+                                <td>
+                                    <img th:src="${listItem.image}" width="60" height="60">
+                                </td>
+                                <td th:text=${listItem.username}></td>
+                                <td th:text=${listItem.firstname}></td>
+                                <td th:text=${listItem.lastname}></td>
+                                <td>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        /*<![CDATA[*/
+        var projectOwnerId = '[[${project.owner.id}]]';
+        var data1 = "[[${membersJson}]]";
+        // var projectMembers = "";
+
+        var data = "[[${membersJson}]]";
+        var projectMembers = JSON.parse(data.replace(/&quot;/g, '\"'));
+        console.log(projectMembers);
+
+        // var projectMembers = /*[[${project.members}]]*/ [];
+        var projectID = '[[${project.id}]]';
+
+
+        document.getElementById("filterBtn").addEventListener("click", function () {
+            var searchInput = document.getElementById("searchInput").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/user/search?search=" + encodeURIComponent(searchInput), true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var users = JSON.parse(xhr.responseText);
+                    updateMembersTable(users);
+                }
+            };
+            xhr.send();
+        });
+
+        function updateMembersTable(users) {
+            var tableBody = document.getElementById("membersTableBody");
+            tableBody.innerHTML = "";
+
+            users.forEach(function (user) {
+                var newRow = tableBody.insertRow();
+                var imageCell = newRow.insertCell();
+                var img = document.createElement("img");
+                img.setAttribute("src", user.image);
+                img.setAttribute("width", "60");
+                img.setAttribute("height", "60");
+                imageCell.appendChild(img);
+
+                var usernameCell = newRow.insertCell();
+                usernameCell.textContent = user.username;
+
+                var firstnameCell = newRow.insertCell();
+                firstnameCell.textContent = user.firstname;
+
+                var lastnameCell = newRow.insertCell();
+                lastnameCell.textContent = user.lastname;
+
+                var actionCell = newRow.insertCell();
+                var seeProfileLink = document.createElement("a");
+                seeProfileLink.setAttribute("href", "/user/" + user.id);
+                seeProfileLink.textContent = "See profile";
+                actionCell.appendChild(seeProfileLink);
+
+                var isMember = projectMembers.some(function (member) {
+                    return member.id === user.id;
+                });
+
+                if (isMember) {
+                    var removeMemberLink = document.createElement("a");
+                    removeMemberLink.setAttribute("href", "/project/" + projectID + "/removemember/" + user.id);
+                    removeMemberLink.setAttribute("class", "m-2 btn btn-danger");
+                    removeMemberLink.textContent = "Remove from project";
+                    actionCell.appendChild(removeMemberLink);
+                } else if(projectOwnerId === user.id){
+
+                }
+                else {
+                    var addMemberLink = document.createElement("a");
+                    addMemberLink.setAttribute("href", "/project/" + projectID + "/addmember/" + user.id);
+                    addMemberLink.setAttribute("class", "m-2 btn btn-primary");
+                    addMemberLink.textContent = "Add to project";
+                    actionCell.appendChild(addMemberLink);
+                }
+            });
+        }
+    </script>
 
 </section>
+
 <div th:replace="~{commons :: footer}"></div>
 </body>
 </html>

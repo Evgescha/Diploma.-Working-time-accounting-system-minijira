@@ -27,6 +27,10 @@ public class UserService extends CrudService<User> implements org.springframewor
         this.repository = repository;
     }
 
+    public List<User> filterUsers(String search) {
+        return repository.findByUsernameContainsOrFirstnameContainsOrLastnameContains(search, search, search);
+    }
+
     public List<User> findByFirstname(String firstname) {
         return repository.findByFirstname(firstname);
     }

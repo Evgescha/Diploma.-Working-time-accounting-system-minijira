@@ -1,5 +1,8 @@
 package com.hescha.minijira.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.model.User;
 import com.hescha.minijira.service.ProjectService;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -30,6 +34,7 @@ public class ProjectController {
     private final ProjectService service;
     private final UserService userService;
     private final SecurityService securityService;
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @GetMapping
     public String readAll(Model model, @RequestParam(value = "searchPhrase", required = false) String searchPhrase) {
@@ -43,9 +48,50 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public String read(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("project", service.read(id));
+    public String read(@PathVariable("id") Long id, Model model) throws Exception {
+        Project project = service.read(id);
+        model.addAttribute("project", project);
+        model.addAttribute("users", List.of());
+        String membersJson = objectMapper.writeValueAsString(project.getMembers());
+        model.addAttribute("membersJson", membersJson);
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
+    }
+
+    @GetMapping("/{id}/addmember/{userId}")
+    public String addMember(@PathVariable("id") Long id, @PathVariable("userId") Long userId) {
+        User user = userService.read(userId);
+        Project project = service.read(id);
+        project.getMembers().add(user);
+
+        service.update(project);
+        user.getContributeProjects().add(project);
+        userService.update(user);
+
+        return "redirect:" + CURRENT_ADDRESS + "/" + id;
+    }
+
+    @GetMapping("/{id}/removemember/{userId}")
+    public String removeMember(@PathVariable("id") Long id, @PathVariable("userId") Long userId, Model model) {
+        Project project = service.read(id);
+
+        User userFromMembers = project.getMembers().stream()
+                .filter(user1 -> Objects.equals(user1.getId(), userId))
+                .findFirst()
+                .orElse(null);
+        if (userFromMembers != null) {
+            project.getMembers().remove(userFromMembers);
+            service.update(project);
+        }
+        User user = userService.read(userId);
+        Project projectFromContribution = user.getContributeProjects().stream()
+                .filter(project1 -> Objects.equals(project1.getId(), id))
+                .findFirst()
+                .orElse(null);
+        if (projectFromContribution != null) {
+            user.getContributeProjects().remove(projectFromContribution);
+            userService.update(user);
+        }
+        return "redirect:" + CURRENT_ADDRESS + "/" + id;
     }
 
     @GetMapping(path = {"/edit", "/edit/{id}"})
