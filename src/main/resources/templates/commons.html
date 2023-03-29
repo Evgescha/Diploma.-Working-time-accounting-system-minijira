@@ -17,13 +17,13 @@
         <div class="header-content">
             <div>
                 <a href="/" class="header-logo">🏠</a>
-                <a href="/user" class="btn " th:if="${#request.userPrincipal != null}">👥</a>
+<!--                <a href="/user" class="btn " th:if="${#request.userPrincipal != null}">👥</a>-->
             </div>
             <div class="header-buttons">
-                <a href="/registration" class="btn btn-register" th:if="${#request.userPrincipal == null}">Register</a>
-                <a href="/login" class="btn btn-signin" th:if="${#request.userPrincipal == null}">Sign in</a>
-                <a href="/user/current" class="btn btn-signin" th:if="${#request.userPrincipal != null}">Profile</a>
-                <a href="/logout" class="btn btn-signin" th:if="${#request.userPrincipal != null}">Log out</a>
+                <a href="/registration" class="btn btn-register mx-1" th:if="${#request.userPrincipal == null}">Register</a>
+                <a href="/login" class="btn btn-signin mx-1" th:if="${#request.userPrincipal == null}">Sign in</a>
+                <a href="/user/current" class="btn btn-signin mx-1" th:if="${#request.userPrincipal != null}">Profile</a>
+                <a href="/logout" class="btn btn-signin mx-1" th:if="${#request.userPrincipal != null}">Log out</a>
             </div>
         </div>
     </div>

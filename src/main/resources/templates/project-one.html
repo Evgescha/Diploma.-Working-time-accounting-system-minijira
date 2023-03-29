@@ -170,14 +170,15 @@
                     return member.id === user.id;
                 });
 
+                var isOwner = projectOwnerId==user.id;
+
                 if (isMember) {
                     var removeMemberLink = document.createElement("a");
                     removeMemberLink.setAttribute("href", "/project/" + projectID + "/removemember/" + user.id);
                     removeMemberLink.setAttribute("class", "m-2 btn btn-danger");
                     removeMemberLink.textContent = "Remove from project";
                     actionCell.appendChild(removeMemberLink);
-                } else if(projectOwnerId === user.id){
-
+                } else if(isOwner){
                 }
                 else {
                     var addMemberLink = document.createElement("a");
