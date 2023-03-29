@@ -31,9 +31,10 @@
                         <div class="form-group">
                             <label>Labels:</label>
                             <div>
-                                <div th:each="label : ${entity.getLabels()}">
+                                <div th:each="label : ${labels}">
                                     <input type="checkbox" th:id="${'label_' + label.id}" th:value="${label.id}"
-                                           th:field="*{labels}">
+                                           th:field="*{labels}"
+                                           th:checked="${entity.labels.contains(label) ? 'checked' : ''}">
                                     <label th:for="${'label_' + label.id}" th:text="${label.name}"></label>
                                 </div>
                             </div>

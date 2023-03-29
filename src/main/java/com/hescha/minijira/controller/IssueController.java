@@ -59,8 +59,10 @@ public class IssueController {
         } else {
             read = service.read(issueId);
         }
+        Project project = projectService.read(id);
         model.addAttribute("entity", read);
-        model.addAttribute("project", projectService.read(id));
+        model.addAttribute("labels", project.getLabels());
+        model.addAttribute("project", project);
         return THYMELEAF_TEMPLATE_EDIT_PAGE;
     }
 
