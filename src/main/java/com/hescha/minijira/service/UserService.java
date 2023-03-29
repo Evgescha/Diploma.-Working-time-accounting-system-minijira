@@ -114,10 +114,6 @@ public class UserService extends CrudService<User> implements org.springframewor
         read.setEmail(entity.getEmail());
         read.setPassword(entity.getPassword());
         read.setImage(entity.getImage());
-        read.setOwnProjects(entity.getOwnProjects());
-        read.setContributeProjects(entity.getContributeProjects());
-        read.setComments(entity.getComments());
-        read.setDateCreated(entity.getDateCreated());
     }
 
 

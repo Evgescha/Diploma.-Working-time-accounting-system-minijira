@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row">
             <div class="col-8 m-auto">
-                <div class="user-profile d-flex">
+                <div class="user-profile d-flex justify-content-between">
                     <div class="user-image">
                         <img th:src="${entity.image}" width="300" height="300" alt="User image"/>
                     </div>
@@ -21,6 +21,9 @@
                         <h3 class="fullname" th:text="${entity.firstname} + ' ' + ${entity.lastname}">First Name Last
                             Name</h3>
                         <p class="email" th:text="${entity.email}">Email</p>
+                    </div>
+                    <div class="edit-profile">
+                        <a th:href="@{/user/edit/{id}(id=${entity.id})}" class="btn btn-primary">Edit Profile</a>
                     </div>
                 </div>
             </div>

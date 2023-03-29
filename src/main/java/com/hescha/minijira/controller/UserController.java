@@ -6,6 +6,7 @@ import com.hescha.minijira.service.ProjectService;
 import com.hescha.minijira.service.SecurityService;
 import com.hescha.minijira.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ public class UserController {
     private final ProjectService projectService;
     private final CommentService commentService;
     private final SecurityService securityService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public String readAll(Model model) {
@@ -62,17 +64,16 @@ public class UserController {
         if (id == null) {
             model.addAttribute("entity", new User());
         } else {
-            model.addAttribute("entity", service.read(id));
+            User read = service.read(id);
+            read.setPassword("");
+            model.addAttribute("entity", read);
         }
-
-        model.addAttribute("project", projectService.readAll());
-        model.addAttribute("comment", commentService.readAll());
-
         return THYMELEAF_TEMPLATE_EDIT_PAGE;
     }
 
     @PostMapping
     public String save(@ModelAttribute User entity, RedirectAttributes ra) {
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         if (entity.getId() == null) {
             try {
                 User createdEntity = service.create(entity);

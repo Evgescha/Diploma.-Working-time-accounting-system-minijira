@@ -1,66 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit User</title>
+	<title>Edit profile</title>
+	<div th:replace="~{commons :: head}"></div>
 </head>
 <body>
-<h1>Edit User</h1>
-<h3 th:if="${message != null}" th:text="${message}">Message</h3>
-<form th:action="@{/user}" th:object="${entity}" method="post">
 
-    <p>
-        <label for="firstname">firstname:</label>
-        <input type="text" th:field="*{firstname}" id="firstname" required>
-    </p>
-    <p>
-        <label for="lastname">lastname:</label>
-        <input type="text" th:field="*{lastname}" id="lastname" required>
-    </p>
-    <p>
-        <label for="username">username:</label>
-        <input type="text" th:field="*{username}" id="username" required>
-    </p>
-    <p>
-        <label for="email">email:</label>
-        <input type="text" th:field="*{email}" id="email" required>
-    </p>
-    <p>
-        <label for="password">password:</label>
-        <input type="text" th:field="*{password}" id="password" required>
-    </p>
-    <p>
-        <label for="image">image:</label>
-        <input type="text" th:field="*{image}" id="image" required>
-    </p>
-    <p>
-        <label for="ownProjects">ownProjects:</label>
-        <select multiple="multiple" th:field="*{ownProjects}" id="ownProjects">
-            <option th:each="ownProjects_item : ${ownProjects_list}" th:value="${ownProjects_item}"
-                    th:text="${ownProjects_item}"></option>
-        </select>
-    </p>
-    <p>
-        <label for="contributeProjects">contributeProjects:</label>
-        <select multiple="multiple" th:field="*{contributeProjects}" id="contributeProjects">
-            <option th:each="contributeProjects_item : ${contributeProjects_list}" th:value="${contributeProjects_item}"
-                    th:text="${contributeProjects_item}"></option>
-        </select>
-    </p>
-    <p>
-        <label for="comments">comments:</label>
-        <select multiple="multiple" th:field="*{comments}" id="comments">
-            <option th:each="comments_item : ${comments_list}" th:value="${comments_item}"
-                    th:text="${comments_item}"></option>
-        </select>
-    </p>
+<div th:replace="~{commons :: header}"></div>
 
-    <p>
-        <input type="text" th:field="*{id}" id="id">
-        <input type="submit" value="Save">
-        <a th:href="@{/user}">Cancel</a>
-    </p>
-</form>
+<section class="mt-5">
+	<div class="container">
+		<div class="row">
+			<div class="col text-center">
+				<div class="greetingMessage">
+					<h3>Edit user profile</h3>
+				</div>
+			</div>
+		</div>
+		<h3 th:if="${success != null}" th:text="${success}" class="text-center"></h3>
+		<form action="/user" class="singin" method="post"  th:object="${entity}">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<div class="form">
+						<div class="row">
+							<div class="col">
+								<div class="combiner">
+								<div class="fieldItem">
+	  								<label for="firstName" class="fieldItemLabel">First name</label>
+									<input id="firstName" name="firstname" type="text" class="fieldItemInput" th:field="*{firstname}"/>
+								</div>
+								<div class="fieldItem">
+	  								<label for="lastName" class="fieldItemLabel">Last name</label>
+									<input id="lastName" name="lastname" type="text" class="fieldItemInput" th:field="*{lastname}"/>
+								</div>
+							</div>
+						</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="fieldItem">
+	  								<label for="username" class="fieldItemLabel">Username</label>
+									<input id="username" name="username" type="text" class="fieldItemInput" th:field="*{username}"/>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="fieldItem">
+									<label for="email" class="fieldItemLabel">Email</label>
+									<input id="email" name="email" type="email" class="fieldItemInput"/>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="fieldItem">
+									<label for="image">Image:</label>
+									<input id="image" name="image" type="text" class="fieldItemInput" th:field="*{image}"/>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="fieldItem">
+	  								<label for="password" class="fieldItemLabel">Password</label>
+									<input id="password" name="password" type="password" class="fieldItemInput" th:field="*{password}"/>
+								</div>
+							</div>
+						</div>
+						<input type="text" th:field="*{id}" hidden>
+						<div class="row">
+							<div class="col">
+								<div class="fieldItem">
+	  								<input type="submit" class="btn btn-primary" value="Update">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
 
+<div th:replace="~{commons :: footer}"></div>
+	
 </body>
 </html>
