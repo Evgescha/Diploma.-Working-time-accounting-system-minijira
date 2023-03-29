@@ -3,89 +3,56 @@
 <head>
     <title>View Issue</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>Issue Details</h1>
-<h3 th:if="${message!=null}" th:text="${message}">Message</h3>
-<table>
-    <tr>
-        <th>board:</th>
-        <td th:text="${entity.board}"></td>
-    </tr>
-    <tr>
-        <th>name:</th>
-        <td th:text="${entity.name}"></td>
-    </tr>
-    <tr>
-        <th>description:</th>
-        <td th:text="${entity.description}"></td>
-    </tr>
-    <tr>
-        <th>column:</th>
-        <td th:text="${entity.column}"></td>
-    </tr>
-    <tr>
-        <th>labels:</th>
-        <td>
+<div class="container mt-5">
+    <h1>Issue Details</h1>
+    <h3 th:if="${message!=null}" th:text="${message}">Message</h3>
+    <div class="card">
+        <div class="card-header">
+            <h3 th:text="${entity.name}">Issue Name</h3>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Description</h5>
+            <p class="card-text" th:text="${entity.description}">Issue Description</p>
+            <hr>
+            <h6>Details</h6>
+            <p><strong>Column: </strong><span th:text="${entity.column}">Column Name</span></p>
+            <p><strong>Assigned: </strong><span th:text="${entity.assigned}">Assigned User</span></p>
+            <p><strong>Created by: </strong><span th:text="${entity.created}">Creator</span></p>
+            <p><strong>Time Spent: </strong><span th:text="${entity.timeSpend}">Time Spent</span></p>
+            <p><strong>Date Created: </strong><span th:text="${entity.dateCreated}">Date Created</span></p>
+            <p><strong>Status: </strong><span th:text="${entity.status}">Status</span></p>
+            <hr>
+            <h6>Labels</h6>
             <ul>
                 <li th:each="labels_item : ${entity.labels}" th:text="${labels_item}"></li>
             </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>comments:</th>
-        <td>
+            <hr>
+            <h6>Comments</h6>
             <ul>
                 <li th:each="comments_item : ${entity.comments}" th:text="${comments_item}"></li>
             </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>assigned:</th>
-        <td th:text="${entity.assigned}"></td>
-    </tr>
-    <tr>
-        <th>created:</th>
-        <td th:text="${entity.created}"></td>
-    </tr>
-    <tr>
-        <th>related:</th>
-        <td>
-            <ul>
-                <li th:each="related_item : ${entity.related}" th:text="${related_item}"></li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>activities:</th>
-        <td>
+            <hr>
+            <h6>Activities</h6>
             <ul>
                 <li th:each="activities_item : ${entity.activities}" th:text="${activities_item}"></li>
             </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>timeSpend:</th>
-        <td th:text="${entity.timeSpend}"></td>
-    </tr>
-    <tr>
-        <th>dateCreated:</th>
-        <td th:text="${entity.dateCreated}"></td>
-    </tr>
-    <tr>
-        <th>status:</th>
-        <td th:text="${entity.status}"></td>
-    </tr>
-
-
-</table>
-<br>
-<a th:href="@{/issue}">Back to the List</a>
-<a th:href="@{/issue/edit/{id}(id=${entity.id})}">Edit</a>
-<form th:if="${entity.id!=null}" method="get"
-      th:action="'/issue/'
-               + ${entity.id} + '/delete'">
-    <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
-</form>
+        </div>
+    </div>
+    <div class="mt-3">
+        <a th:href="@{/issue}" class="btn btn-secondary">Back to the List</a>
+        <a th:href="@{/issue/edit/{id}(id=${entity.id})}" class="btn btn-primary">Edit</a>
+        <form th:if="${entity.id!=null}" method="get"
+              th:action="'/issue/' + ${entity.id} + '/delete'"
+              class="d-inline">
+            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure?')">
+        </form>
+    </div>
+</div>
 </body>
 </html>

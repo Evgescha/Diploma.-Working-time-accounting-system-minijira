@@ -36,7 +36,6 @@ public class LabelController {
     public String readProjectLabels(@PathVariable("id") Long id, Model model) {
         Project project = projectService.read(id);
         model.addAttribute("project", project);
-        model.addAttribute("list", project.getLabels());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 
@@ -62,6 +61,7 @@ public class LabelController {
         if (entity.getId() == null) {
             try {
                 Label createdEntity = labelService.create(entity);
+                project = projectService.read(projectId);
                 project.getLabels().add(createdEntity);
                 projectService.update(project);
                 ra.addFlashAttribute(MESSAGE, "Creating is successful");

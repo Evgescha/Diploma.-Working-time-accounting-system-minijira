@@ -24,7 +24,7 @@
                         <div class="table-cell">Description</div>
                         <div class="table-cell">Actions</div>
                     </div>
-                    <div class="table-row" th:each="entity : ${list}">
+                    <div class="table-row" th:each="entity : ${project.getLabels()}">
                         <div class="table-cell" th:text=${entity.name}></div>
                         <div class="table-cell" th:text=${entity.description}></div>
                         <div class="table-cell">

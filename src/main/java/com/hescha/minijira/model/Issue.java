@@ -27,8 +27,6 @@ public class Issue extends AbstractEntity {
     private User assigned;
     @ManyToOne
     private User created;
-    @ManyToMany
-    private List<Issue> related = new ArrayList<>();
     @OneToMany
     private List<Activity> activities = new ArrayList<>();
     @ManyToOne

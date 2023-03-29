@@ -1,84 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Issue</title>
+    <title th:text="${entity.id == null} ? 'Create Issue' : 'Edit Issue'"></title>
+    <div th:replace="~{commons :: head}"></div>
 </head>
 <body>
-<h1>Edit Issue</h1>
-<h3 th:if="${message != null}" th:text="${message}">Message</h3>
-<form th:action="@{/issue}" th:object="${entity}" method="post">
+<div th:replace="~{commons :: header}"></div>
 
-    <p>
-        <label for="board">board:</label>
-        <input type="text" th:field="*{board}" id="board" required>
-    </p>
-    <p>
-        <label for="name">name:</label>
-        <input type="text" th:field="*{name}" id="name" required>
-    </p>
-    <p>
-        <label for="description">description:</label>
-        <input type="text" th:field="*{description}" id="description" required>
-    </p>
-    <p>
-        <label for="column">column:</label>
-        <input type="text" th:field="*{column}" id="column" required>
-    </p>
-    <p>
-        <label for="labels">labels:</label>
-        <select multiple="multiple" th:field="*{labels}" id="labels">
-            <option th:each="labels_item : ${labels_list}" th:value="${labels_item}" th:text="${labels_item}"></option>
-        </select>
-    </p>
-    <p>
-        <label for="comments">comments:</label>
-        <select multiple="multiple" th:field="*{comments}" id="comments">
-            <option th:each="comments_item : ${comments_list}" th:value="${comments_item}"
-                    th:text="${comments_item}"></option>
-        </select>
-    </p>
-    <p>
-        <label for="assigned">assigned:</label>
-        <input type="text" th:field="*{assigned}" id="assigned" required>
-    </p>
-    <p>
-        <label for="created">created:</label>
-        <input type="text" th:field="*{created}" id="created" required>
-    </p>
-    <p>
-        <label for="related">related:</label>
-        <select multiple="multiple" th:field="*{related}" id="related">
-            <option th:each="related_item : ${related_list}" th:value="${related_item}"
-                    th:text="${related_item}"></option>
-        </select>
-    </p>
-    <p>
-        <label for="activities">activities:</label>
-        <select multiple="multiple" th:field="*{activities}" id="activities">
-            <option th:each="activities_item : ${activities_list}" th:value="${activities_item}"
-                    th:text="${activities_item}"></option>
-        </select>
-    </p>
-    <p>
-        <label for="timeSpend">timeSpend:</label>
-        <input type="text" th:field="*{timeSpend}" id="timeSpend" required>
-    </p>
-    <p>
-        <label for="dateCreated">dateCreated:</label>
-        <input type="text" th:field="*{dateCreated}" id="dateCreated" required>
-    </p>
-    <p>
-        <label for="status">status:</label>
-        <input type="text" th:field="*{status}" id="status" required>
-    </p>
 
-    <p>
-        <input type="text" th:field="*{id}" id="id">
-        <input type="submit" value="Save">
-        <a th:href="@{/issue}">Cancel</a>
-    </p>
-</form>
+<section class="mt-5">
+    <div class="container">
+        <div class="row">
+            <div th:replace="~{commons :: left-menu}"></div>
+            <div class="col-md-8" th:classappend="${project.id == null} ? 'offset-md-2' : ''">
+                <div class="row">
+                    <h1 th:text="${entity.id == null} ? 'Create Issue' : 'Edit Issue'"></h1>
+                </div>
+                <div class="row mt-5">
+                    <form th:action="@{/issue}" th:object="${entity}" method="post" class="width100">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea class="form-control" id="description" th:field="*{description}" rows="3"
+                                      required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Labels:</label>
+                            <div>
+                                <div th:each="label : ${entity.getLabels()}">
+                                    <input type="checkbox" th:id="${'label_' + label.id}" th:value="${label.id}"
+                                           th:field="*{labels}">
+                                    <label th:for="${'label_' + label.id}" th:text="${label.name}"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status:</label>
+                            <select class="form-control" id="status" th:field="*{status}">
+                                <option th:each="status : ${T(com.hescha.minijira.model.IssueStatus).values()}"
+                                        th:value="${status}"
+                                        th:text="${status}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group" hidden>
+                            <input type="text" th:field="*{id}" class="form-control" id="id" name="id">
+                            <input type="text" th:value="${project.id}" class="form-control" id="projectId"
+                                   name="projectId">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a th:href="@{/issue}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+
+                <div class="row mt-5">
+                    <h2>Activities</h2>
+                    <ul>
+                        <li th:each="activity : ${entity.activities}">
+                            <span th:text="${activity.type}"></span>
+                            <span th:text=": ${activity.description}"></span>
+                            <span th:text=" | ${activity.dateCreated}"></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row mt-5">
+                    <h2>Comments</h2>
+                    <ul>
+                        <li th:each="comment : ${entity.comments}">
+                            <strong th:text="${comment.owner.username}"></strong>
+                            <span th:text=": ${comment.text}"></span>
+                            <span th:text=" | ${comment.dateCreated}"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 </body>
 </html>

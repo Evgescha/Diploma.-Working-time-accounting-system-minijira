@@ -1,76 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>List of Issue</title>
-    <meta charset="UTF-8">
+    <title>List of Issues</title>
+    <div th:replace="~{commons :: head}"></div>
 </head>
 <body>
-<h1>List of Issue</h1>
-<h3 th:if="${message != null}" th:text="${message}">Message</h3>
-<a th:href="@{/issue/edit}">Create new Issue</a>
-<table>
-    <thead>
-    <tr>
-        <th>board</th>
-        <th>name</th>
-        <th>description</th>
-        <th>column</th>
-        <th>labels</th>
-        <th>comments</th>
-        <th>assigned</th>
-        <th>created</th>
-        <th>related</th>
-        <th>activities</th>
-        <th>timeSpend</th>
-        <th>dateCreated</th>
-        <th>status</th>
 
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="entity : ${list}">
-        <td th:text=${entity.board}></td>
-        <td th:text=${entity.name}></td>
-        <td th:text=${entity.description}></td>
-        <td th:text=${entity.column}></td>
-        <td>
-            <ul>
-                <li th:each="labels_item : ${entity.labels}" th:text="${labels_item}"></li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-                <li th:each="comments_item : ${entity.comments}" th:text="${comments_item}"></li>
-            </ul>
-        </td>
-        <td th:text=${entity.assigned}></td>
-        <td th:text=${entity.created}></td>
-        <td>
-            <ul>
-                <li th:each="related_item : ${entity.related}" th:text="${related_item}"></li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-                <li th:each="activities_item : ${entity.activities}" th:text="${activities_item}"></li>
-            </ul>
-        </td>
-        <td th:text=${entity.timeSpend}></td>
-        <td th:text=${entity.dateCreated}></td>
-        <td th:text=${entity.status}></td>
+<div th:replace="~{commons :: header}"></div>
 
-        <td>
-            <a th:href="@{/issue/{id}(id=${entity.id})}">See detail</a>
-            <a th:href="@{/issue/edit/{id}(id=${entity.id})}">Edit</a>
-            <form th:if="${entity.id!=null}" method="get"
-                  th:action="'/issue/'
-                  +${entity.id}+'/delete'">
-                <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<section class="mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- left menu -->
+            <div th:replace="~{commons :: left-menu}"></div>
+            <!-- issues list -->
+            <div class="col-8 m-auto">
+                <h1>List of Issues</h1>
+                <h3 th:if="${message != null}" th:text="${message}">Message</h3>
+                <a th:href="@{/issue/{id}/edit(id=${project.id})}" class="btn btn-primary mb-3">Create new Issue</a>
+                <div class="table-container">
+                    <div class="table-row table-header">
+                        <div class="table-cell">Name</div>
+                        <div class="table-cell">Column</div>
+                        <div class="table-cell">Status</div>
+                        <div class="table-cell">Assigned To</div>
+                        <div class="table-cell">Actions</div>
+                    </div>
+                    <div class="table-row" th:each="listItem : ${project.getIssues()}">
+                        <div class="table-cell" th:text="${listItem.name}"></div>
+                        <div class="table-cell" th:text="${listItem.column}"></div>
+                        <div class="table-cell" th:text="${listItem.status}"></div>
+                        <div class="table-cell" th:text="${listItem.assigned != null ? listItem.assigned.username : 'Unassigned'}"></div>
+                        <div class="table-cell">
+                            <a th:href="@{/issue/{id}/edit/{labelId}(id=${project.id}, labelId=${listItem.id})}" class="btn btn-warning btn-sm">Edit</a>
+                            <form th:if="${listItem.id!=null}" method="get"
+                                  th:action="'/issue/'+${listItem.id}+'/delete'"
+                                  class="d-inline">
+                                <input type="submit" value="Delete" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{commons :: footer}"></div>
+
 </body>
 </html>

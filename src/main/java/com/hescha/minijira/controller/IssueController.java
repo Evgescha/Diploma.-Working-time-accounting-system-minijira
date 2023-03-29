@@ -1,20 +1,13 @@
 package com.hescha.minijira.controller;
 
 import com.hescha.minijira.model.Issue;
-import com.hescha.minijira.service.ActivityService;
-import com.hescha.minijira.service.ColumnService;
-import com.hescha.minijira.service.CommentService;
-import com.hescha.minijira.service.IssueService;
-import com.hescha.minijira.service.LabelService;
-import com.hescha.minijira.service.UserService;
+import com.hescha.minijira.model.Label;
+import com.hescha.minijira.model.Project;
+import com.hescha.minijira.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -40,50 +33,54 @@ public class IssueController {
     private final UserService userService;
     private final IssueService issueService;
     private final ActivityService activityService;
+    private final ProjectService projectService;
 
     @GetMapping
-    public String readAll(Model model) {
+    public String readAllFromProject(Model model) {
         model.addAttribute("list", service.readAll());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 
     @GetMapping("/{id}")
-    public String read(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("entity", service.read(id));
-        return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
+    public String readProjectIssues(@PathVariable("id") Long id, Model model) {
+        Project project = projectService.read(id);
+        model.addAttribute("project", project);
+        model.addAttribute("list", project.getIssues());
+        return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 
-    @GetMapping(path = {"/edit", "/edit/{id}"})
-    public String editPage(Model model, @PathVariable(name = "id", required = false) Long id) {
-        if (id == null) {
-            model.addAttribute("entity", new Issue());
+    @GetMapping(path = {"/{id}/edit", "/{id}/edit/{idLabel}"})
+    public String editPage(Model model,
+                           @PathVariable(name = "id") Long id,
+                           @PathVariable(name = "idLabel", required = false) Long issueId) {
+        Issue read;
+        if (issueId == null) {
+            read = new Issue();
         } else {
-            model.addAttribute("entity", service.read(id));
+            read = service.read(issueId);
         }
-
-        model.addAttribute("column_list", columnService.readAll());
-        model.addAttribute("label", labelService.readAll());
-        model.addAttribute("comment", commentService.readAll());
-        model.addAttribute("user_list", userService.readAll());
-        model.addAttribute("issue", issueService.readAll());
-        model.addAttribute("activity", activityService.readAll());
-        model.addAttribute("issueStatus_list", List.of());
-
+        model.addAttribute("entity", read);
+        model.addAttribute("project", projectService.read(id));
         return THYMELEAF_TEMPLATE_EDIT_PAGE;
     }
 
     @PostMapping
-    public String save(@ModelAttribute Issue entity, RedirectAttributes ra) {
+    public String save(@ModelAttribute Issue entity,
+                       @RequestParam Integer projectId,
+                       RedirectAttributes ra) {
+        Project project = projectService.read(projectId);
+        entity.setProject(project);
         if (entity.getId() == null) {
             try {
                 Issue createdEntity = service.create(entity);
+                project = projectService.read(projectId);
+                project.getIssues().add(createdEntity);
+                projectService.update(project);
                 ra.addFlashAttribute(MESSAGE, "Creating is successful");
-                return REDIRECT_TO_ALL_ITEMS + "/" + createdEntity.getId();
             } catch (Exception e) {
                 ra.addFlashAttribute(MESSAGE, "Creating failed");
                 e.printStackTrace();
             }
-            return REDIRECT_TO_ALL_ITEMS;
         } else {
             try {
                 service.update(entity.getId(), entity);
@@ -92,8 +89,8 @@ public class IssueController {
                 e.printStackTrace();
                 ra.addFlashAttribute(MESSAGE, "Editing failed");
             }
-            return REDIRECT_TO_ALL_ITEMS + "/" + entity.getId();
         }
+        return REDIRECT_TO_ALL_ITEMS + "/" + projectId;
     }
 
     @GetMapping("/{id}/delete")

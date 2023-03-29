@@ -30,8 +30,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     Issue findByCreated(User created);
 
-    List<Issue> findByRelatedContains(com.hescha.minijira.model.Issue related);
-
     List<Issue> findByActivitiesContains(com.hescha.minijira.model.Activity activities);
 
     Issue findByTimeSpend(Integer timeSpend);

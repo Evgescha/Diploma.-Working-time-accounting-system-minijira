@@ -56,10 +56,6 @@ public class IssueService extends CrudService<Issue> {
         return repository.findByCreated(created);
     }
 
-    public List<Issue> findByRelatedContains(com.hescha.minijira.model.Issue related) {
-        return repository.findByRelatedContains(related);
-    }
-
     public List<Issue> findByActivitiesContains(com.hescha.minijira.model.Activity activities) {
         return repository.findByActivitiesContains(activities);
     }
@@ -84,22 +80,13 @@ public class IssueService extends CrudService<Issue> {
         }
         updateFields(entity, read);
         return update(read);
-
     }
 
     private void updateFields(Issue entity, Issue read) {
-        read.setProject(entity.getProject());
         read.setName(entity.getName());
         read.setDescription(entity.getDescription());
         read.setColumn(entity.getColumn());
         read.setLabels(entity.getLabels());
-        read.setComments(entity.getComments());
-        read.setAssigned(entity.getAssigned());
-        read.setCreated(entity.getCreated());
-        read.setRelated(entity.getRelated());
-        read.setActivities(entity.getActivities());
-        read.setTimeSpend(entity.getTimeSpend());
-        read.setDateCreated(entity.getDateCreated());
         read.setStatus(entity.getStatus());
     }
 }
