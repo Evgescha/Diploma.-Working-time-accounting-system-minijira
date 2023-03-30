@@ -2,11 +2,7 @@ package com.hescha.minijira.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +23,7 @@ public class Issue extends AbstractEntity {
     private User assigned;
     @ManyToOne
     private User created;
-    @OneToMany
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Activity> activities = new ArrayList<>();
     @ManyToOne
     private Project project;

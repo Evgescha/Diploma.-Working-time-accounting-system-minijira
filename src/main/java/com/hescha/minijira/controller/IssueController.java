@@ -1,17 +1,15 @@
 package com.hescha.minijira.controller;
 
-import com.hescha.minijira.model.Column;
-import com.hescha.minijira.model.Issue;
-import com.hescha.minijira.model.Project;
-import com.hescha.minijira.service.ColumnService;
-import com.hescha.minijira.service.IssueService;
-import com.hescha.minijira.service.ProjectService;
-import com.hescha.minijira.service.SecurityService;
+import com.hescha.minijira.model.*;
+import com.hescha.minijira.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,7 +26,9 @@ public class IssueController {
     private final IssueService issueService;
     private final ProjectService projectService;
     private final ColumnService columnService;
+    private final ActivityService activityService;
     private final SecurityService securityService;
+    private final CommentService commentService;
 
     @GetMapping
     public String readAllFromProject(Model model) {
@@ -52,7 +52,20 @@ public class IssueController {
         Integer timeSpend = issue.getTimeSpend();
         timeSpend = timeSpend == null ? 0 : timeSpend;
         issue.setTimeSpend(timeSpend + timeAmount);
-        service.update(issue);
+        Issue updatedIssue = service.update(issue);
+
+        User loggedIn = securityService.getLoggedIn();
+
+        Activity activity = new Activity();
+        activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " added " + timeAmount +" minutes");
+        activity.setIssue(issue);
+        activity.setType(ActivityType.COMMENT_ADD);
+        activity.setOwner(loggedIn);
+
+        Activity savedActivity = activityService.create(activity);
+        updatedIssue.getActivities().add(savedActivity);
+        issueService.update(updatedIssue);
+
         return REDIRECT_TO_ALL_ITEMS + "/get/" + issue.getId();
     }
 
@@ -63,20 +76,46 @@ public class IssueController {
         Integer timeSpend = issue.getTimeSpend();
         timeSpend = timeSpend == null ? 0 : timeSpend;
         issue.setTimeSpend(timeSpend - timeAmount);
-        service.update(issue);
+        Issue updatedIssue = service.update(issue);
+
+        User loggedIn = securityService.getLoggedIn();
+
+        Activity activity = new Activity();
+        activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " removed " + timeAmount +" minutes");
+        activity.setIssue(issue);
+        activity.setType(ActivityType.COMMENT_ADD);
+        activity.setOwner(loggedIn);
+
+        Activity savedActivity = activityService.create(activity);
+        updatedIssue.getActivities().add(savedActivity);
+        issueService.update(updatedIssue);
         return REDIRECT_TO_ALL_ITEMS + "/get/" + issue.getId();
     }
 
     @PostMapping("/{id}/status")
     public String changeStatus(@PathVariable("id") Long id,
                              @RequestParam("statusId") Integer statusId) {
-        Issue issue = issueService.read(id);
-        Column column = columnService.read(statusId);
-        issue.setColumn(column);
-        issue = service.update(issue);
-        column.getIssues().add(issue);
-        columnService.update(column);
-        return REDIRECT_TO_ALL_ITEMS + "/get/" + issue.getId();
+        Issue updatedIssue = issueService.read(id);
+        Column currentColumn = updatedIssue.getColumn();
+        Column newColumn = columnService.read(statusId);
+        updatedIssue.setColumn(newColumn);
+        updatedIssue = service.update(updatedIssue);
+        newColumn.getIssues().add(updatedIssue);
+        columnService.update(newColumn);
+
+        User loggedIn = securityService.getLoggedIn();
+
+        Activity activity = new Activity();
+        activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername()
+                + " change status from " + currentColumn.getName() +" to " + newColumn.getName());
+        activity.setIssue(updatedIssue);
+        activity.setType(ActivityType.COMMENT_ADD);
+        activity.setOwner(loggedIn);
+
+        Activity savedActivity = activityService.create(activity);
+        updatedIssue.getActivities().add(savedActivity);
+        issueService.update(updatedIssue);
+        return REDIRECT_TO_ALL_ITEMS + "/get/" + updatedIssue.getId();
     }
 
     @GetMapping("/{id}")
@@ -113,11 +152,24 @@ public class IssueController {
         if (entity.getId() == null) {
             try {
                 entity.setTimeSpend(0);
+                entity.setCreated(securityService.getLoggedIn());
                 Issue createdEntity = service.create(entity);
-                createdEntity.setCreated(securityService.getLoggedIn());
                 project = projectService.read(projectId);
                 project.getIssues().add(createdEntity);
                 projectService.update(project);
+
+
+                User loggedIn = securityService.getLoggedIn();
+
+                Activity activity = new Activity();
+                activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " created issue");
+                activity.setIssue(createdEntity);
+                activity.setType(ActivityType.COMMENT_ADD);
+                activity.setOwner(loggedIn);
+
+                Activity savedActivity = activityService.create(activity);
+                createdEntity.getActivities().add(savedActivity);
+                issueService.update(createdEntity);
                 ra.addFlashAttribute(MESSAGE, "Creating is successful");
             } catch (Exception e) {
                 ra.addFlashAttribute(MESSAGE, "Creating failed");
@@ -125,7 +177,18 @@ public class IssueController {
             }
         } else {
             try {
-                service.update(entity.getId(), entity);
+                Issue updatedIssue = service.update(entity.getId(), entity);
+                User loggedIn = securityService.getLoggedIn();
+
+                Activity activity = new Activity();
+                activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " updated issue");
+                activity.setIssue(updatedIssue);
+                activity.setType(ActivityType.COMMENT_ADD);
+                activity.setOwner(loggedIn);
+
+                Activity savedActivity = activityService.create(activity);
+                updatedIssue.getActivities().add(savedActivity);
+                issueService.update(updatedIssue);
                 ra.addFlashAttribute(MESSAGE, "Editing is successful");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -134,7 +197,6 @@ public class IssueController {
         }
         return REDIRECT_TO_ALL_ITEMS + "/" + projectId;
     }
-
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
         Issue issue = issueService.read(id);
@@ -143,8 +205,22 @@ public class IssueController {
         try {
             project.getIssues().remove(issue);
             issue.setProject(null);
+            List<Activity> activities = issue.getActivities();
+
+            // Remove the relationship between Issue and Activity
+            for (Activity activity : activities) {
+                activity.setIssue(null);
+            }
+            activityService.deleteAll(activities);
+            List<Comment> comments = issue.getComments();
+            for (Comment comment:comments){
+                comment.setOwner(null);
+                comment.setIssue(null);
+            }
+            comments.removeAll(comments);
+
+            projectService.update(project);
             service.delete(id);
-            projectService.delete(project.getId());
             ra.addFlashAttribute(MESSAGE, "Removing is successful");
         } catch (Exception e) {
             e.printStackTrace();

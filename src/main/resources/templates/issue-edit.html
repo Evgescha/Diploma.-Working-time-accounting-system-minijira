@@ -64,28 +64,6 @@
                         <a th:href="@{/issue}" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>
-
-                <div class="row mt-5">
-                    <h2>Activities</h2>
-                    <ul>
-                        <li th:each="activity : ${entity.activities}">
-                            <span th:text="${activity.type}"></span>
-                            <span th:text=": ${activity.description}"></span>
-                            <span th:text=" | ${activity.dateCreated}"></span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="row mt-5">
-                    <h2>Comments</h2>
-                    <ul>
-                        <li th:each="comment : ${entity.comments}">
-                            <strong th:text="${comment.owner.username}"></strong>
-                            <span th:text=": ${comment.text}"></span>
-                            <span th:text=" | ${comment.dateCreated}"></span>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>

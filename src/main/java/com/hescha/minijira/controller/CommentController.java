@@ -1,12 +1,7 @@
 package com.hescha.minijira.controller;
 
-import com.hescha.minijira.model.Comment;
-import com.hescha.minijira.model.Issue;
-import com.hescha.minijira.model.User;
-import com.hescha.minijira.service.CommentService;
-import com.hescha.minijira.service.IssueService;
-import com.hescha.minijira.service.SecurityService;
-import com.hescha.minijira.service.UserService;
+import com.hescha.minijira.model.*;
+import com.hescha.minijira.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,11 +22,10 @@ public class CommentController {
     public static final String THYMELEAF_TEMPLATE_ONE_ITEM_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-one";
     public static final String THYMELEAF_TEMPLATE_EDIT_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-edit";
     public static final String REDIRECT_TO_ALL_ITEMS = "redirect:" + CURRENT_ADDRESS;
-
     private final CommentService service;
-
     private final IssueService issueService;
     private final UserService userService;
+    private final ActivityService activityService;
     private final SecurityService securityService;
 
     @GetMapping
@@ -74,8 +68,17 @@ public class CommentController {
 
                 Comment createdEntity = service.create(entity);
                 issue.getComments().add(createdEntity);
-                issueService.update(issue);
+                Issue updatedIssue = issueService.update(issue);
 
+                Activity activity = new Activity();
+                activity.setDescription(LocalDateTime.now() +": " + user.getUsername() + " added a comment");
+                activity.setIssue(issue);
+                activity.setType(ActivityType.COMMENT_ADD);
+                activity.setOwner(user);
+
+                Activity savedActivity = activityService.create(activity);
+                updatedIssue.getActivities().add(savedActivity);
+                issueService.update(updatedIssue);
                 ra.addFlashAttribute(MESSAGE, "Creating is successful");
             } catch (Exception e) {
                 ra.addFlashAttribute(MESSAGE, "Creating failed");

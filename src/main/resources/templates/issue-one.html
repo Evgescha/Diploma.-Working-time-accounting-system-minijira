@@ -24,7 +24,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#manageTimeModal">
                             Manage Time
                         </button>
-                        <a th:href="@{/issue/{id}/edit/{id}(id=${entity.project.id}, issueId=${entity.id})}"
+                        <a th:href="@{/issue/{id}/edit/{issueId}(id=${entity.project.id}, issueId=${entity.id})}"
                            th:if="${#request.userPrincipal.getName().equals(entity.created.username)}"
                            class="btn btn-primary">Edit</a>
                         <form th:if="${entity.id!=null}" method="get"
