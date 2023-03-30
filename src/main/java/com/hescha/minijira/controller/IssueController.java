@@ -159,6 +159,7 @@ public class IssueController {
         entity.setProject(project);
         if (entity.getId() == null) {
             try {
+                entity.setDateCreated(LocalDateTime.now());
                 entity.setTimeSpend(0);
                 entity.setCreated(securityService.getLoggedIn());
                 Issue createdEntity = service.create(entity);

@@ -21,7 +21,10 @@
                 <div class="d-flex justify-content-around">
                     <h3 th:text="${entity.name}">Issue Name</h3>
                     <div class="mt-3">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#manageTimeModal">
+                        <button type="button"
+                                class="btn btn-secondary"
+                                th:classappend="${isApplicant != null and isApplicant == false} ? 'hidden' : ''"
+                                data-bs-toggle="modal" data-bs-target="#manageTimeModal">
                             Manage Time
                         </button>
                         <a th:href="@{/issue/{id}/edit/{issueId}(id=${entity.project.id}, issueId=${entity.id})}"
@@ -29,7 +32,7 @@
                            class="btn btn-primary">Edit</a>
                         <form th:if="${entity.id!=null}" method="get"
                               th:action="'/issue/' + ${entity.id} + '/delete'"
-                              th:classappend="${isApplicant != null and isApplicant == false} ? 'hidden' : ''"
+                              th:classappend="${isOwner != null and isOwner == false} ? 'hidden' : ''"
                               class="d-inline">
                             <input type="submit" value="Delete" class="btn btn-danger"
                                    onclick="return confirm('Are you sure?')">
