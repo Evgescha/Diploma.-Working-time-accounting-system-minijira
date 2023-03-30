@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>List of Issues</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js"></script>
     <div th:replace="~{commons :: head}"></div>
 </head>
 <body>
@@ -18,28 +20,13 @@
                 <h1>List of Issues</h1>
                 <h3 th:if="${message != null}" th:text="${message}">Message</h3>
                 <a th:href="@{/issue/{id}/edit(id=${project.id})}" class="btn btn-primary mb-3">Create new Issue</a>
-                <div class="table-container">
-                    <div class="table-row table-header">
-                        <div class="table-cell">Name</div>
-                        <div class="table-cell">Column</div>
-                        <div class="table-cell">Status</div>
-                        <div class="table-cell">Assigned To</div>
-                        <div class="table-cell">Actions</div>
-                    </div>
-                    <div class="table-row" th:each="listItem : ${project.getIssues()}">
-                        <div class="table-cell">
-                            <a th:href="'/issue/get/' + ${listItem.id}" th:text="${listItem.name}"></a>
-                        </div>
-                        <div class="table-cell" th:text="${listItem.column.name}"></div>
-                        <div class="table-cell" th:text="${listItem.status}"></div>
-                        <div class="table-cell" th:text="${listItem.assigned != null ? listItem.assigned.username : 'Unassigned'}"></div>
-                        <div class="table-cell">
-                            <a th:href="@{/issue/{id}/edit/{labelId}(id=${project.id}, labelId=${listItem.id})}" class="btn btn-warning btn-sm">Edit</a>
-                            <form th:if="${listItem.id!=null}" method="get"
-                                  th:action="'/issue/'+${listItem.id}+'/delete'"
-                                  class="d-inline">
-                                <input type="submit" value="Delete" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                            </form>
+                <div class="row">
+                    <div class="col-md-4" th:each="column : ${project.getColumns()}" th:attr="data-column-id=${column.id}">
+                        <h4 class="text-center" th:text="${column.name}"></h4>
+                        <div class="issue-container border">
+                            <div class="issue-card p-2 mb-2" th:each="issue : ${column.getIssues()}" th:attr="data-issue-id=${issue.id}">
+                                <a th:href="'/issue/get/' + ${issue.id}" th:text="${issue.name}"></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -47,6 +34,78 @@
         </div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var issueContainers = Array.prototype.slice.call(document.querySelectorAll('.issue-container'));
+        var drake = dragula(issueContainers, {
+            revertOnSpill: true,
+            removeOnSpill: false
+        });
+
+        drake.on('drop', function (el, target, source, sibling) {
+            var issueId = el.getAttribute('data-issue-id');
+            var newColumnId = target.closest('[data-column-id]').getAttribute('data-column-id');
+            var xhr = new XMLHttpRequest();
+            var formData = new FormData();
+
+            formData.append('statusId', newColumnId);
+            xhr.open('POST', '/issue/' + issueId + '/status', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            // xhr.setRequestHeader('X-CSRF-Token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log('Status updated');
+                } else {
+                    console.error('An error occurred while updating the status');
+                }
+            };
+            xhr.send(formData);
+        });
+    });
+</script>
+
+
+
+<!--<section class="mt-5">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            &lt;!&ndash; left menu &ndash;&gt;-->
+<!--            <div th:replace="~{commons :: left-menu}"></div>-->
+<!--            &lt;!&ndash; issues list &ndash;&gt;-->
+<!--            <div class="col-8 m-auto">-->
+<!--                <h1>List of Issues</h1>-->
+<!--                <h3 th:if="${message != null}" th:text="${message}">Message</h3>-->
+<!--                <a th:href="@{/issue/{id}/edit(id=${project.id})}" class="btn btn-primary mb-3">Create new Issue</a>-->
+<!--                <div class="table-container">-->
+<!--                    <div class="table-row table-header">-->
+<!--                        <div class="table-cell">Name</div>-->
+<!--                        <div class="table-cell">Column</div>-->
+<!--                        <div class="table-cell">Status</div>-->
+<!--                        <div class="table-cell">Assigned To</div>-->
+<!--                        <div class="table-cell">Actions</div>-->
+<!--                    </div>-->
+<!--                    <div class="table-row" th:each="listItem : ${project.getIssues()}">-->
+<!--                        <div class="table-cell">-->
+<!--                            <a th:href="'/issue/get/' + ${listItem.id}" th:text="${listItem.name}"></a>-->
+<!--                        </div>-->
+<!--                        <div class="table-cell" th:text="${listItem.column.name}"></div>-->
+<!--                        <div class="table-cell" th:text="${listItem.status}"></div>-->
+<!--                        <div class="table-cell" th:text="${listItem.assigned != null ? listItem.assigned.username : 'Unassigned'}"></div>-->
+<!--                        <div class="table-cell">-->
+<!--                            <a th:href="@{/issue/{id}/edit/{labelId}(id=${project.id}, labelId=${listItem.id})}" class="btn btn-warning btn-sm">Edit</a>-->
+<!--                            <form th:if="${listItem.id!=null}" method="get"-->
+<!--                                  th:action="'/issue/'+${listItem.id}+'/delete'"-->
+<!--                                  class="d-inline">-->
+<!--                                <input type="submit" value="Delete" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 
 <div th:replace="~{commons :: footer}"></div>
 

@@ -1,5 +1,6 @@
 package com.hescha.minijira.controller;
 
+import com.hescha.minijira.model.Column;
 import com.hescha.minijira.model.Issue;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.service.ColumnService;
@@ -63,6 +64,18 @@ public class IssueController {
         timeSpend = timeSpend == null ? 0 : timeSpend;
         issue.setTimeSpend(timeSpend - timeAmount);
         service.update(issue);
+        return REDIRECT_TO_ALL_ITEMS + "/get/" + issue.getId();
+    }
+
+    @PostMapping("/{id}/status")
+    public String changeStatus(@PathVariable("id") Long id,
+                             @RequestParam("statusId") Integer statusId) {
+        Issue issue = issueService.read(id);
+        Column column = columnService.read(statusId);
+        issue.setColumn(column);
+        issue = service.update(issue);
+        column.getIssues().add(issue);
+        columnService.update(column);
         return REDIRECT_TO_ALL_ITEMS + "/get/" + issue.getId();
     }
 
