@@ -137,6 +137,14 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <tr >
+                        <td><img th:src="${project.owner.image}" alt="User Image" width="50" height="50"></td>
+                        <td><a th:href="@{'/user/' + ${project.owner.id}}" th:text="${project.owner.username}">Username</a></td>
+                        <td>
+                            <a th:href="@{'/issue/' + ${entity.id} + '/assign/' + ${project.owner.id}}"
+                               class="btn btn-primary">Assign</a>
+                        </td>
+                    </tr>
                     <tr th:each="member : ${project.members}">
                         <td><img th:src="${member.image}" alt="User Image" width="50" height="50"></td>
                         <td><a th:href="@{'/user/' + ${member.id}}" th:text="${member.username}">Username</a></td>
