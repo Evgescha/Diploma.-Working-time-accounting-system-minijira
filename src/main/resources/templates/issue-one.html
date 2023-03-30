@@ -26,7 +26,12 @@
                                 th:classappend="${isApplicant != null and isApplicant == false} ? 'hidden' : ''"
                                 data-bs-toggle="modal" data-bs-target="#manageTimeModal">
                             Manage Time
-                        </button>
+                        </button><button type="button"
+                                         class="btn btn-info"
+                                         th:classappend="${isOwner != null and isOwner == false} ? 'hidden' : ''"
+                                         data-bs-toggle="modal" data-bs-target="#assignMemberModal">
+                        Assign Member
+                    </button>
                         <a th:href="@{/issue/{id}/edit/{issueId}(id=${entity.project.id}, issueId=${entity.id})}"
                            th:classappend="${isOwner != null and isOwner == false} ? 'hidden' : ''"
                            class="btn btn-primary">Edit</a>
@@ -113,6 +118,43 @@
         </div>
     </div>
 </div>
+
+<!-- Assign Member Modal -->
+<div class="modal fade" id="assignMemberModal" tabindex="-1" aria-labelledby="assignMemberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignMemberModalLabel">Assign Member</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Assign</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="member : ${project.members}">
+                        <td><img th:src="${member.image}" alt="User Image" width="50" height="50"></td>
+                        <td><a th:href="@{'/user/' + ${member.id}}" th:text="${member.username}">Username</a></td>
+                        <td>
+                            <a th:href="@{'/issue/' + ${entity.id} + '/assign/' + ${member.id}}"
+                               class="btn btn-primary">Assign</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script th:inline="javascript">
     function submitManageTimeForm(action) {

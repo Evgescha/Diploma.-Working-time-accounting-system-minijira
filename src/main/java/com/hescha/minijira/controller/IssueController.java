@@ -7,12 +7,7 @@ import com.hescha.minijira.model.Comment;
 import com.hescha.minijira.model.Issue;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.model.User;
-import com.hescha.minijira.service.ActivityService;
-import com.hescha.minijira.service.ColumnService;
-import com.hescha.minijira.service.CommentService;
-import com.hescha.minijira.service.IssueService;
-import com.hescha.minijira.service.ProjectService;
-import com.hescha.minijira.service.SecurityService;
+import com.hescha.minijira.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +41,7 @@ public class IssueController {
     private final ActivityService activityService;
     private final SecurityService securityService;
     private final CommentService commentService;
+    private final UserService userService;
 
     @GetMapping
     public String readAllFromProject(Model model) {
@@ -165,6 +161,17 @@ public class IssueController {
         model.addAttribute("labels", project.getLabels());
         model.addAttribute("project", project);
         return THYMELEAF_TEMPLATE_EDIT_PAGE;
+    }
+
+    @GetMapping(path = {"/{id}/assign/{userId}"})
+    public String assignUser(Model model,
+                           @PathVariable Long id,
+                           @PathVariable Long userId) {
+        Issue issue = service.read(id);
+        User user = userService.read(userId);
+        issue.setAssigned(user);
+        service.update(issue);
+        return REDIRECT_TO_ALL_ITEMS +"/get/" +id;
     }
 
     @PostMapping

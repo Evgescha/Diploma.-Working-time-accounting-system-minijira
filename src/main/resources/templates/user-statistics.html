@@ -23,12 +23,16 @@
             <div class="table-cell">Last 10 Time Activities</div>
           </div>
           <div class="table-row" th:each="userStat : ${userStatisticsList}">
-            <div class="table-cell" th:text="${userStat.user.firstname} + ' ' + ${userStat.user.lastname}"></div>
+            <div class="table-cell">
+              <a th:href="'/user/'+${userStat.user.id}" th:text="${userStat.user.firstname} + ' ' + ${userStat.user.lastname}"></a>
+            </div>
             <div class="table-cell" th:text="${userStat.assignedIssuesCount}"></div>
             <div class="table-cell" th:text="${userStat.totalTimeSpent}"></div>
             <div class="table-cell">
               <ul>
-                <li th:each="issue : ${userStat.last5Issues}" th:text="${issue.name} + ' (' + ${issue.timeSpend} + ' min)'"></li>
+                <li th:each="issue : ${userStat.last5Issues}">
+                  <a th:href="'/issue/get/' + ${issue.id}"  th:text="${issue.name} + ' (' + ${issue.timeSpend} + ' min)'"></a>
+                </li>
               </ul>
             </div>
             <div class="table-cell">
