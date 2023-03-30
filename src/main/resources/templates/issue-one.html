@@ -21,7 +21,12 @@
                 <div class="d-flex justify-content-around">
                     <h3 th:text="${entity.name}">Issue Name</h3>
                     <div class="mt-3">
-                        <a th:href="@{/issue/{id}/edit/{id}(id=${entity.project.id}, issueId=${entity.id})}" class="btn btn-primary">Edit</a>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#manageTimeModal">
+                            Manage Time
+                        </button>
+                        <a th:href="@{/issue/{id}/edit/{id}(id=${entity.project.id}, issueId=${entity.id})}"
+                           th:if="${#request.userPrincipal.getName().equals(entity.created.username)}"
+                           class="btn btn-primary">Edit</a>
                         <form th:if="${entity.id!=null}" method="get"
                               th:action="'/issue/' + ${entity.id} + '/delete'"
                               class="d-inline">
@@ -79,6 +84,57 @@
         </div>
     </div>
 </section>
+
+<!-- Manage Time Modal -->
+<div class="modal fade" id="manageTimeModal" tabindex="-1" aria-labelledby="manageTimeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="manageTimeModalLabel">Manage Time</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="manageTimeForm">
+                    <div class="form-group">
+                        <label for="timeAmount">Time Amount (minutes):</label>
+                        <input type="number" class="form-control" id="timeAmount" name="timeAmount" min="1" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="submitManageTimeForm('addTime')">Add Time</button>
+                <button type="button" class="btn btn-danger" onclick="submitManageTimeForm('removeTime')">Remove Time</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    function submitManageTimeForm(action) {
+        const timeAmount = document.getElementById("timeAmount").value;
+        const issueId = /*[[${entity.id}]]*/ '';
+
+        if (timeAmount < 1) {
+            alert("Time amount must be at least 1");
+            return;
+        }
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/issue/" + issueId + "/" + action;
+
+        const timeAmountInput = document.createElement("input");
+        timeAmountInput.type = "hidden";
+        timeAmountInput.name = "timeAmount";
+        timeAmountInput.value = timeAmount;
+        form.appendChild(timeAmountInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
 
 <div th:replace="~{commons :: footer}"></div>
 

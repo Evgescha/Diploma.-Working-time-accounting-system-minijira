@@ -9,12 +9,7 @@ import com.hescha.minijira.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -47,6 +42,28 @@ public class IssueController {
         model.addAttribute("project", project);
         model.addAttribute("entity", issue);
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
+    }
+
+    @PostMapping("/{id}/addTime")
+    public String addTime(@PathVariable("id") Long id,
+                          @RequestParam("timeAmount") Integer timeAmount) {
+        Issue issue = issueService.read(id);
+        Integer timeSpend = issue.getTimeSpend();
+        timeSpend = timeSpend == null ? 0 : timeSpend;
+        issue.setTimeSpend(timeSpend + timeAmount);
+        service.update(issue);
+        return REDIRECT_TO_ALL_ITEMS + "/get/" + issue.getId();
+    }
+
+    @PostMapping("/{id}/removeTime")
+    public String removeTime(@PathVariable("id") Long id,
+                             @RequestParam("timeAmount") Integer timeAmount) {
+        Issue issue = issueService.read(id);
+        Integer timeSpend = issue.getTimeSpend();
+        timeSpend = timeSpend == null ? 0 : timeSpend;
+        issue.setTimeSpend(timeSpend - timeAmount);
+        service.update(issue);
+        return REDIRECT_TO_ALL_ITEMS + "/get/" + issue.getId();
     }
 
     @GetMapping("/{id}")
@@ -82,6 +99,7 @@ public class IssueController {
         entity.setProject(project);
         if (entity.getId() == null) {
             try {
+                entity.setTimeSpend(0);
                 Issue createdEntity = service.create(entity);
                 createdEntity.setCreated(securityService.getLoggedIn());
                 project = projectService.read(projectId);

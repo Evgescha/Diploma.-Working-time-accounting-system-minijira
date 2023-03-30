@@ -1,6 +1,7 @@
 package com.hescha.minijira.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -15,5 +16,6 @@ public class Activity extends AbstractEntity {
     private Issue issue;
     private ActivityType type;
     private String description;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime dateCreated;
 }

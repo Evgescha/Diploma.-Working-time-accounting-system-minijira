@@ -88,10 +88,6 @@ public class UserService extends CrudService<User> implements org.springframewor
         return repository.findByContributeProjectsContains(contributeProjects);
     }
 
-    public List<User> findByCommentsContains(com.hescha.minijira.model.Comment comments) {
-        return repository.findByCommentsContains(comments);
-    }
-
     public User findByDateCreated(LocalDateTime dateCreated) {
         return repository.findByDateCreated(dateCreated);
     }

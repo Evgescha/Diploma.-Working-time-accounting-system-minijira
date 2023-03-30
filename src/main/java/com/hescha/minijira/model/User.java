@@ -33,10 +33,6 @@ public class User extends AbstractEntity {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private Set<Project> contributeProjects = new HashSet<>();
 
-    @JsonIgnore
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    private List<Comment> comments = new ArrayList<>();
-
     private LocalDateTime dateCreated;
 
     @Override

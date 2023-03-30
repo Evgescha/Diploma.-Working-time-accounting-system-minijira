@@ -40,7 +40,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Set<User> findByContributeProjectsContains(com.hescha.minijira.model.Project contributeProjects);
 
-    List<User> findByCommentsContains(com.hescha.minijira.model.Comment comments);
-
     User findByDateCreated(LocalDateTime dateCreated);
 }
