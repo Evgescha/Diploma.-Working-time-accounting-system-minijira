@@ -19,46 +19,9 @@ public class ProjectService extends CrudService<Project> {
         this.repository = repository;
     }
 
-    public List<Project> findByName(String name) {
-        return repository.findByName(name);
-    }
-
     public List<Project> findByNameContains(String name) {
         return repository.findByNameContains(name);
     }
-
-    public List<Project> findByDescription(String description) {
-        return repository.findByDescription(description);
-    }
-
-    public List<Project> findByDescriptionContains(String description) {
-        return repository.findByDescriptionContains(description);
-    }
-
-    public List<Project> findByImage(String image) {
-        return repository.findByImage(image);
-    }
-
-    public List<Project> findByImageContains(String image) {
-        return repository.findByImageContains(image);
-    }
-
-    public Project findByStatus(ProjectStatusType status) {
-        return repository.findByStatus(status);
-    }
-
-    public List<Project> findByMembersContains(com.hescha.minijira.model.User members) {
-        return repository.findByMembersContains(members);
-    }
-
-    public Project findByOwner(User owner) {
-        return repository.findByOwner(owner);
-    }
-
-    public Project findByDateCreated(LocalDateTime dateCreated) {
-        return repository.findByDateCreated(dateCreated);
-    }
-
 
     public Project update(Long id, Project entity) {
         Project read = read(id);

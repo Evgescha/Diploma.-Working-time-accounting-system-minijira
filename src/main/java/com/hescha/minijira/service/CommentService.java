@@ -21,27 +21,6 @@ public class CommentService extends CrudService<Comment> {
         this.repository = repository;
     }
 
-    public Comment findByIssue(Issue issue) {
-        return repository.findByIssue(issue);
-    }
-
-    public Comment findByOwner(User owner) {
-        return repository.findByOwner(owner);
-    }
-
-    public List<Comment> findByText(String text) {
-        return repository.findByText(text);
-    }
-
-    public List<Comment> findByTextContains(String text) {
-        return repository.findByTextContains(text);
-    }
-
-    public Comment findByDateCreated(LocalDateTime dateCreated) {
-        return repository.findByDateCreated(dateCreated);
-    }
-
-
     public Comment update(Long id, Comment entity) {
         Comment read = read(id);
         if (read == null) {

@@ -20,26 +20,6 @@ public class ActivityService extends CrudService<Activity> {
         this.repository = repository;
     }
 
-    public Activity findByIssue(Issue issue) {
-        return repository.findByIssue(issue);
-    }
-
-    public Activity findByType(ActivityType type) {
-        return repository.findByType(type);
-    }
-
-    public List<Activity> findByDescription(String description) {
-        return repository.findByDescription(description);
-    }
-
-    public List<Activity> findByDescriptionContains(String description) {
-        return repository.findByDescriptionContains(description);
-    }
-
-    public Activity findByDateCreated(LocalDateTime dateCreated) {
-        return repository.findByDateCreated(dateCreated);
-    }
-
 
     public Activity update(Long id, Activity entity) {
         Activity read = read(id);

@@ -16,26 +16,6 @@ public class LabelService extends CrudService<Label> {
         this.repository = repository;
     }
 
-    public List<Label> findByName(String name) {
-        return repository.findByName(name);
-    }
-
-    public List<Label> findByNameContains(String name) {
-        return repository.findByNameContains(name);
-    }
-
-    public List<Label> findByDescription(String description) {
-        return repository.findByDescription(description);
-    }
-
-    public List<Label> findByDescriptionContains(String description) {
-        return repository.findByDescriptionContains(description);
-    }
-
-    public List<Label> findByIssuesContains(com.hescha.minijira.model.Issue issues) {
-        return repository.findByIssuesContains(issues);
-    }
-
 
     public Label update(Long id, Label entity) {
         Label read = read(id);

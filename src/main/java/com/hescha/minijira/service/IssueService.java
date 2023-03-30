@@ -20,59 +20,6 @@ public class IssueService extends CrudService<Issue> {
         this.repository = repository;
     }
 
-    public List<Issue> findByName(String name) {
-        return repository.findByName(name);
-    }
-
-    public List<Issue> findByNameContains(String name) {
-        return repository.findByNameContains(name);
-    }
-
-    public List<Issue> findByDescription(String description) {
-        return repository.findByDescription(description);
-    }
-
-    public List<Issue> findByDescriptionContains(String description) {
-        return repository.findByDescriptionContains(description);
-    }
-
-    public Issue findByColumn(Column column) {
-        return repository.findByColumn(column);
-    }
-
-    public List<Issue> findByLabelsContains(com.hescha.minijira.model.Label labels) {
-        return repository.findByLabelsContains(labels);
-    }
-
-    public List<Issue> findByCommentsContains(com.hescha.minijira.model.Comment comments) {
-        return repository.findByCommentsContains(comments);
-    }
-
-    public Issue findByAssigned(User assigned) {
-        return repository.findByAssigned(assigned);
-    }
-
-    public Issue findByCreated(User created) {
-        return repository.findByCreated(created);
-    }
-
-    public List<Issue> findByActivitiesContains(com.hescha.minijira.model.Activity activities) {
-        return repository.findByActivitiesContains(activities);
-    }
-
-    public Issue findByTimeSpend(Integer timeSpend) {
-        return repository.findByTimeSpend(timeSpend);
-    }
-
-    public Issue findByDateCreated(LocalDateTime dateCreated) {
-        return repository.findByDateCreated(dateCreated);
-    }
-
-    public Issue findByStatus(IssueStatus status) {
-        return repository.findByStatus(status);
-    }
-
-
     public Issue update(Long id, Issue entity) {
         Issue read = read(id);
         if (read == null) {

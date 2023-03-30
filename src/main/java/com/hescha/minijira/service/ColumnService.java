@@ -16,19 +16,6 @@ public class ColumnService extends CrudService<Column> {
         this.repository = repository;
     }
 
-    public List<Column> findByName(String name) {
-        return repository.findByName(name);
-    }
-
-    public List<Column> findByNameContains(String name) {
-        return repository.findByNameContains(name);
-    }
-
-    public List<Column> findByIssuesContains(com.hescha.minijira.model.Issue issues) {
-        return repository.findByIssuesContains(issues);
-    }
-
-
     public Column update(Long id, Column entity) {
         Column read = read(id);
         if (read == null) {

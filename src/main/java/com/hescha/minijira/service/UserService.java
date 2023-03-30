@@ -2,7 +2,6 @@ package com.hescha.minijira.service;
 
 import com.hescha.minijira.model.User;
 import com.hescha.minijira.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,67 +30,10 @@ public class UserService extends CrudService<User> implements org.springframewor
         return repository.findByUsernameContainsOrFirstnameContainsOrLastnameContains(search, search, search);
     }
 
-    public List<User> findByFirstname(String firstname) {
-        return repository.findByFirstname(firstname);
-    }
-
-    public List<User> findByFirstnameContains(String firstname) {
-        return repository.findByFirstnameContains(firstname);
-    }
-
-    public List<User> findByLastname(String lastname) {
-        return repository.findByLastname(lastname);
-    }
-
-    public List<User> findByLastnameContains(String lastname) {
-        return repository.findByLastnameContains(lastname);
-    }
-
     public User findByUsername(String username) {
         log.info("findByUsername {}", username);
         return repository.findByUsername(username);
     }
-
-    public List<User> findByUsernameContains(String username) {
-        return repository.findByUsernameContains(username);
-    }
-
-    public List<User> findByEmail(String email) {
-        return repository.findByEmail(email);
-    }
-
-    public List<User> findByEmailContains(String email) {
-        return repository.findByEmailContains(email);
-    }
-
-    public List<User> findByPassword(String password) {
-        return repository.findByPassword(password);
-    }
-
-    public List<User> findByPasswordContains(String password) {
-        return repository.findByPasswordContains(password);
-    }
-
-    public List<User> findByImage(String image) {
-        return repository.findByImage(image);
-    }
-
-    public List<User> findByImageContains(String image) {
-        return repository.findByImageContains(image);
-    }
-
-    public List<User> findByOwnProjectsContains(com.hescha.minijira.model.Project ownProjects) {
-        return repository.findByOwnProjectsContains(ownProjects);
-    }
-
-    public Set<User> findByContributeProjectsContains(com.hescha.minijira.model.Project contributeProjects) {
-        return repository.findByContributeProjectsContains(contributeProjects);
-    }
-
-    public User findByDateCreated(LocalDateTime dateCreated) {
-        return repository.findByDateCreated(dateCreated);
-    }
-
 
     public User update(Long id, User entity) {
         User read = read(id);
