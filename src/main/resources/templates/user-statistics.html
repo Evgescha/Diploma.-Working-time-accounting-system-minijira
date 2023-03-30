@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User Statistics</title>
+  <div th:replace="~{commons :: head}"></div>
+</head>
+<body>
+<div th:replace="~{commons :: header}"></div>
+<section class="mt-5">
+  <div class="container">
+    <div class="row">
+      <!-- left menu -->
+      <div th:replace="~{commons :: left-menu}"></div>
+      <!-- user statistics -->
+      <div class="col-8">
+        <h1>User Statistics</h1>
+        <div class="table-container">
+          <div class="table-row table-header">
+            <div class="table-cell">User</div>
+            <div class="table-cell">Assigned Issues</div>
+            <div class="table-cell">Total Time Spent (min)</div>
+            <div class="table-cell">Last 5 Issues</div>
+            <div class="table-cell">Last 10 Time Activities</div>
+          </div>
+          <div class="table-row" th:each="userStat : ${userStatisticsList}">
+            <div class="table-cell" th:text="${userStat.user.firstname} + ' ' + ${userStat.user.lastname}"></div>
+            <div class="table-cell" th:text="${userStat.assignedIssuesCount}"></div>
+            <div class="table-cell" th:text="${userStat.totalTimeSpent}"></div>
+            <div class="table-cell">
+              <ul>
+                <li th:each="issue : ${userStat.last5Issues}" th:text="${issue.name} + ' (' + ${issue.timeSpend} + ' min)'"></li>
+              </ul>
+            </div>
+            <div class="table-cell">
+              <ul>
+                <li th:each="activity : ${userStat.last10TimeActivities}" th:text="${activity.description}"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div th:replace="~{commons :: footer}"></div>
+</body>
+</html>

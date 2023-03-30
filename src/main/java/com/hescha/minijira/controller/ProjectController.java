@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.model.User;
+import com.hescha.minijira.model.UserStatistics;
 import com.hescha.minijira.service.ProjectService;
 import com.hescha.minijira.service.SecurityService;
 import com.hescha.minijira.service.UserService;
@@ -57,6 +58,15 @@ public class ProjectController {
         Long loggedUserId = securityService.getLoggedIn().getId();
         model.addAttribute("isOwner", Objects.equals(loggedUserId, project.getOwner().getId()));
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
+    }
+
+    @GetMapping("/{id}/user-statistics")
+    public String showUserStatistics(@PathVariable Integer id, Model model) {
+        Project project = service.read(id);
+        model.addAttribute("project", project);
+        List<UserStatistics> userStatistics = service.getUserStatistics(id);
+        model.addAttribute("userStatisticsList", userStatistics);
+        return "user-statistics";
     }
 
     @GetMapping("/{id}/addmember/{userId}")

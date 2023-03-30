@@ -1,11 +1,27 @@
 package com.hescha.minijira.controller;
 
-import com.hescha.minijira.model.*;
-import com.hescha.minijira.service.*;
+import com.hescha.minijira.model.Activity;
+import com.hescha.minijira.model.ActivityType;
+import com.hescha.minijira.model.Column;
+import com.hescha.minijira.model.Comment;
+import com.hescha.minijira.model.Issue;
+import com.hescha.minijira.model.Project;
+import com.hescha.minijira.model.User;
+import com.hescha.minijira.service.ActivityService;
+import com.hescha.minijira.service.ColumnService;
+import com.hescha.minijira.service.CommentService;
+import com.hescha.minijira.service.IssueService;
+import com.hescha.minijira.service.ProjectService;
+import com.hescha.minijira.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
@@ -66,7 +82,7 @@ public class IssueController {
         Activity activity = new Activity();
         activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " added " + timeAmount +" minutes");
         activity.setIssue(issue);
-        activity.setType(ActivityType.COMMENT_ADD);
+        activity.setType(ActivityType.TIME_ADDED);
         activity.setOwner(loggedIn);
 
         Activity savedActivity = activityService.create(activity);
@@ -90,7 +106,7 @@ public class IssueController {
         Activity activity = new Activity();
         activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " removed " + timeAmount +" minutes");
         activity.setIssue(issue);
-        activity.setType(ActivityType.COMMENT_ADD);
+        activity.setType(ActivityType.TIME_DELETED);
         activity.setOwner(loggedIn);
 
         Activity savedActivity = activityService.create(activity);
@@ -116,7 +132,7 @@ public class IssueController {
         activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername()
                 + " change status from " + currentColumn.getName() +" to " + newColumn.getName());
         activity.setIssue(updatedIssue);
-        activity.setType(ActivityType.COMMENT_ADD);
+        activity.setType(ActivityType.STATUS_CHANGE);
         activity.setOwner(loggedIn);
 
         Activity savedActivity = activityService.create(activity);

@@ -29,12 +29,16 @@
         </div>
     </div>
 </header>
-<!--⌛-->
+<!---->
 <div class="col-4" th:fragment="left-menu" th:if="${project.id != null}">
     <ul class="left-menu">
         <li>
             <span class="menu-icon">📈</span>
             <a th:href="'/project/' + ${project.id}">Project info</a>
+        </li>
+        <li>
+            <span class="menu-icon">⌛</span>
+            <a th:href="'/project/' + ${project.id} + '/user-statistics'">Project statistics</a>
         </li>
         <li>
             <span class="menu-icon">📝</span>
