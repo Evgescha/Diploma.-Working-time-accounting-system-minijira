@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,6 +43,12 @@ public class IssueController {
         Project project = issue.getProject();
         model.addAttribute("project", project);
         model.addAttribute("entity", issue);
+
+        Long loggedUserId = securityService.getLoggedIn().getId();
+        model.addAttribute("isOwner", Objects.equals(loggedUserId, project.getOwner().getId()));
+        User assigned = issue.getAssigned();
+        boolean isApplicant = assigned != null && Objects.equals(assigned.getId(), loggedUserId);
+        model.addAttribute("isApplicant", isApplicant);
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
     }
 
@@ -123,6 +130,7 @@ public class IssueController {
         Project project = projectService.read(id);
         model.addAttribute("project", project);
         model.addAttribute("list", project.getIssues());
+        model.addAttribute("isOwner", Objects.equals(securityService.getLoggedIn().getId(), project.getOwner().getId()));
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 
@@ -130,14 +138,14 @@ public class IssueController {
     public String editPage(Model model,
                            @PathVariable(name = "id") Long id,
                            @PathVariable(name = "idLabel", required = false) Long issueId) {
-        Issue read;
+        Issue issue;
         if (issueId == null) {
-            read = new Issue();
+            issue = new Issue();
         } else {
-            read = service.read(issueId);
+            issue = service.read(issueId);
         }
         Project project = projectService.read(id);
-        model.addAttribute("entity", read);
+        model.addAttribute("entity", issue);
         model.addAttribute("labels", project.getLabels());
         model.addAttribute("project", project);
         return THYMELEAF_TEMPLATE_EDIT_PAGE;

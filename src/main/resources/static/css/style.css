@@ -209,4 +209,7 @@ font-size: 1.4375rem;
 .width100{
     width: 100%;
 }
-
+.hidden{
+    opacity: 0;
+    display: none;
+}

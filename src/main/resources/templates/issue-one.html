@@ -25,10 +25,11 @@
                             Manage Time
                         </button>
                         <a th:href="@{/issue/{id}/edit/{issueId}(id=${entity.project.id}, issueId=${entity.id})}"
-                           th:if="${#request.userPrincipal.getName().equals(entity.created.username)}"
+                           th:classappend="${isOwner != null and isOwner == false} ? 'hidden' : ''"
                            class="btn btn-primary">Edit</a>
                         <form th:if="${entity.id!=null}" method="get"
                               th:action="'/issue/' + ${entity.id} + '/delete'"
+                              th:classappend="${isApplicant != null and isApplicant == false} ? 'hidden' : ''"
                               class="d-inline">
                             <input type="submit" value="Delete" class="btn btn-danger"
                                    onclick="return confirm('Are you sure?')">

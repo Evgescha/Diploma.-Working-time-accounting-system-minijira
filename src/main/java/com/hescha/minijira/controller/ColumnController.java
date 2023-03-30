@@ -4,11 +4,14 @@ import com.hescha.minijira.model.Column;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.service.ColumnService;
 import com.hescha.minijira.service.ProjectService;
+import com.hescha.minijira.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Objects;
 
 
 @Controller
@@ -24,6 +27,7 @@ public class ColumnController {
 
     private final ColumnService columnService;
     private final ProjectService projectService;
+    private final SecurityService securityService;
 
 
     @GetMapping
@@ -37,6 +41,7 @@ public class ColumnController {
         Project project = projectService.read(id);
         model.addAttribute("project", project);
         model.addAttribute("list", project.getColumns());
+        model.addAttribute("isOwner", Objects.equals(securityService.getLoggedIn().getId(), project.getOwner().getId()));
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 

@@ -54,6 +54,8 @@ public class ProjectController {
         model.addAttribute("users", List.of());
         String membersJson = objectMapper.writeValueAsString(project.getMembers());
         model.addAttribute("membersJson", membersJson);
+        Long loggedUserId = securityService.getLoggedIn().getId();
+        model.addAttribute("isOwner", Objects.equals(loggedUserId, project.getOwner().getId()));
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
     }
 

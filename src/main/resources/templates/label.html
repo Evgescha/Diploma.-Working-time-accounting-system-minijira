@@ -17,7 +17,9 @@
             <div class="col-8 m-auto">
                 <h1>List of Labels</h1>
                 <h3 th:if="${message != null}" th:text="${message}">Message</h3>
-                <a th:href="@{/label/{id}/edit(id=${project.id})}" class="btn btn-primary mb-3">Create new Label</a>
+                <a th:href="@{/label/{id}/edit(id=${project.id})}"
+                   th:classappend="${isOwner != null and isOwner == false} ? 'hidden' : ''"
+                   class="btn btn-primary mb-3">Create new Label</a>
                 <div class="table-container">
                     <div class="table-row table-header">
                         <div class="table-cell">Name</div>
@@ -27,7 +29,8 @@
                     <div class="table-row" th:each="entity : ${project.getLabels()}">
                         <div class="table-cell" th:text=${entity.name}></div>
                         <div class="table-cell" th:text=${entity.description}></div>
-                        <div class="table-cell">
+                        <div class="table-cell"
+                             th:classappend="${isOwner != null and isOwner == false} ? 'hidden' : ''">
                             <a th:href="@{/label/{id}/edit/{labelId}(id=${project.id}, labelId=${entity.id})}" class="btn btn-warning btn-sm">Edit</a>
                             <form th:if="${entity.id!=null}" method="get"
                                   th:action="'/label/'+${entity.id}+'/delete'"
