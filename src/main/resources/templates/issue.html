@@ -27,8 +27,10 @@
                         <div class="table-cell">Actions</div>
                     </div>
                     <div class="table-row" th:each="listItem : ${project.getIssues()}">
-                        <div class="table-cell" th:text="${listItem.name}"></div>
-                        <div class="table-cell" th:text="${listItem.column}"></div>
+                        <div class="table-cell">
+                            <a th:href="'/issue/get/' + ${listItem.id}" th:text="${listItem.name}"></a>
+                        </div>
+                        <div class="table-cell" th:text="${listItem.column.name}"></div>
                         <div class="table-cell" th:text="${listItem.status}"></div>
                         <div class="table-cell" th:text="${listItem.assigned != null ? listItem.assigned.username : 'Unassigned'}"></div>
                         <div class="table-cell">

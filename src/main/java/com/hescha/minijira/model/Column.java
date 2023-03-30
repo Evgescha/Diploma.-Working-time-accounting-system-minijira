@@ -15,4 +15,12 @@ public class Column extends AbstractEntity {
     private Project project;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "column")
     private List<Issue> issues = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Column{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

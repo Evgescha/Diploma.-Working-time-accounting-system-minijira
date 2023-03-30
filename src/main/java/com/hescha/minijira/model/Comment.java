@@ -1,7 +1,9 @@
 package com.hescha.minijira.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,5 +18,11 @@ public class Comment extends AbstractEntity {
     @ManyToOne
     private User owner;
     private String text;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateCreated;
+
+    @Override
+    public String toString() {
+        return owner.getUsername() + " (" + dateCreated + "): " + text;
+    }
 }

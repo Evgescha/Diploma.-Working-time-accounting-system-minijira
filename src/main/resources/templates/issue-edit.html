@@ -47,6 +47,14 @@
                                         th:text="${status}"></option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="column">Column:</label>
+                            <select class="form-control" id="column" th:field="*{column}">
+                                <option th:each="column : ${project.getColumns()}"
+                                        th:value="${column.id}"
+                                        th:text="${column.name}"></option>
+                            </select>
+                        </div>
                         <div class="form-group" hidden>
                             <input type="text" th:field="*{id}" class="form-control" id="id" name="id">
                             <input type="text" th:value="${project.id}" class="form-control" id="projectId"

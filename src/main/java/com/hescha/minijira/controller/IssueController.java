@@ -1,17 +1,21 @@
 package com.hescha.minijira.controller;
 
 import com.hescha.minijira.model.Issue;
-import com.hescha.minijira.model.Label;
 import com.hescha.minijira.model.Project;
-import com.hescha.minijira.service.*;
+import com.hescha.minijira.service.ColumnService;
+import com.hescha.minijira.service.IssueService;
+import com.hescha.minijira.service.ProjectService;
+import com.hescha.minijira.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
-
 
 @Controller
 @RequiredArgsConstructor
@@ -24,21 +28,25 @@ public class IssueController {
     public static final String THYMELEAF_TEMPLATE_ONE_ITEM_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-one";
     public static final String THYMELEAF_TEMPLATE_EDIT_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-edit";
     public static final String REDIRECT_TO_ALL_ITEMS = "redirect:" + CURRENT_ADDRESS;
-
     private final IssueService service;
-
-    private final ColumnService columnService;
-    private final LabelService labelService;
-    private final CommentService commentService;
-    private final UserService userService;
     private final IssueService issueService;
-    private final ActivityService activityService;
     private final ProjectService projectService;
+    private final ColumnService columnService;
+    private final SecurityService securityService;
 
     @GetMapping
     public String readAllFromProject(Model model) {
         model.addAttribute("list", service.readAll());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
+    }
+
+    @GetMapping("/get/{id}")
+    public String getIssueById(@PathVariable("id") Long id, Model model) {
+        Issue issue = issueService.read(id);
+        Project project = issue.getProject();
+        model.addAttribute("project", project);
+        model.addAttribute("entity", issue);
+        return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
     }
 
     @GetMapping("/{id}")
@@ -75,6 +83,7 @@ public class IssueController {
         if (entity.getId() == null) {
             try {
                 Issue createdEntity = service.create(entity);
+                createdEntity.setCreated(securityService.getLoggedIn());
                 project = projectService.read(projectId);
                 project.getIssues().add(createdEntity);
                 projectService.update(project);
@@ -97,13 +106,19 @@ public class IssueController {
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
+        Issue issue = issueService.read(id);
+        Project project = issue.getProject();
+        Long projectId = project.getId();
         try {
+            project.getIssues().remove(issue);
+            issue.setProject(null);
             service.delete(id);
+            projectService.delete(project.getId());
             ra.addFlashAttribute(MESSAGE, "Removing is successful");
         } catch (Exception e) {
             e.printStackTrace();
             ra.addFlashAttribute(MESSAGE, "Removing failed");
         }
-        return REDIRECT_TO_ALL_ITEMS;
+        return REDIRECT_TO_ALL_ITEMS + "/" + projectId;
     }
 }

@@ -15,16 +15,18 @@
             <div th:replace="~{commons :: left-menu}"></div>
             <!-- projects list -->
             <div class="col-8">
-                <h1 class="project-title" th:text="${project.name}">Project Title</h1>
-                <div class="mt-4">
-                    <a th:href="@{/project}" class="btn btn-primary">Back to the List</a>
-                    <a th:href="@{/project/edit/{id}(id=${project.id})}" class="btn btn-warning">Edit</a>
-                    <form th:if="${project.id!=null}" method="get"
-                          th:action="'/project/' + ${project.id} + '/delete'"
-                          class="d-inline">
-                        <input type="submit" value="Delete" class="btn btn-danger"
-                               onclick="return confirm('Are you sure?')">
-                    </form>
+                <div>
+                    <h1 class="project-title" th:text="${project.name}">Project Title</h1>
+                    <div class="mt-4">
+                        <a th:href="@{/project}" class="btn btn-primary">Back to the List</a>
+                        <a th:href="@{/project/edit/{id}(id=${project.id})}" class="btn btn-warning">Edit</a>
+                        <form th:if="${project.id!=null}" method="get"
+                              th:action="'/project/' + ${project.id} + '/delete'"
+                              class="d-inline">
+                            <input type="submit" value="Delete" class="btn btn-danger"
+                                   onclick="return confirm('Are you sure?')">
+                        </form>
+                    </div>
                 </div>
                 <div class="project-info">
                     <div class="table-cell project-image">
@@ -39,32 +41,33 @@
                         <p class="project-description" th:text="${project.description}">Description</p>
                     </div>
                 </div>
-
-                <h2 class="mt-4">Members</h2>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Photo</th>
-                        <th>FirstName</th>
-                        <th>Last Name</th>
-                        <th th:if="${#authentication.principal.username == project.owner.username}">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="member : ${project.members}">
-                        <td>
-                            <img th:src="${member.image}" width="60" height="60" alt="Member photo"/>
-                        </td>
-                        <td th:text="${member.firstname}">John</td>
-                        <td th:text="${member.lastname}">Doe</td>
-                        <td th:if="${#authentication.principal.username == project.owner.username
-      and member.username != #authentication.principal.username}">
-                            <a th:href="@{'/project/' + ${project.id} + '/removemember/' + ${member.id}}"
-                               class="btn btn-danger">Remove</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div>
+                    <h2 class="mt-4">Members</h2>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>FirstName</th>
+                            <th>Last Name</th>
+                            <th th:if="${#authentication.principal.username == project.owner.username}">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="member : ${project.members}">
+                            <td>
+                                <img th:src="${member.image}" width="60" height="60" alt="Member photo"/>
+                            </td>
+                            <td th:text="${member.firstname}">John</td>
+                            <td th:text="${member.lastname}">Doe</td>
+                            <td th:if="${#authentication.principal.username == project.owner.username
+          and member.username != #authentication.principal.username}">
+                                <a th:href="@{'/project/' + ${project.id} + '/removemember/' + ${member.id}}"
+                                   class="btn btn-danger">Remove</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -170,7 +173,7 @@
                     return member.id === user.id;
                 });
 
-                var isOwner = projectOwnerId==user.id;
+                var isOwner = projectOwnerId == user.id;
 
                 if (isMember) {
                     var removeMemberLink = document.createElement("a");
@@ -178,9 +181,8 @@
                     removeMemberLink.setAttribute("class", "m-2 btn btn-danger");
                     removeMemberLink.textContent = "Remove from project";
                     actionCell.appendChild(removeMemberLink);
-                } else if(isOwner){
-                }
-                else {
+                } else if (isOwner) {
+                } else {
                     var addMemberLink = document.createElement("a");
                     addMemberLink.setAttribute("href", "/project/" + projectID + "/addmember/" + user.id);
                     addMemberLink.setAttribute("class", "m-2 btn btn-primary");
