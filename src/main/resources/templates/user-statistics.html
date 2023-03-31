@@ -23,7 +23,8 @@
             <div class="table-cell">Last 10 Time Activities</div>
           </div>
           <div class="table-row" th:each="userStat : ${userStatisticsList}">
-            <div class="table-cell">
+            <div class="table-cell d-flex ">
+              <img th:src="${userStat.user.image}" width="60" height="60" alt="Member photo" class="mx-1"/>
               <a th:href="'/user/'+${userStat.user.id}" th:text="${userStat.user.firstname} + ' ' + ${userStat.user.lastname}"></a>
             </div>
             <div class="table-cell" th:text="${userStat.assignedIssuesCount}"></div>

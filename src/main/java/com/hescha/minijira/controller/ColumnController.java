@@ -88,18 +88,8 @@ public class ColumnController {
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
-        Column column = columnService.read(id);
-        Project project = column.getProject();
-        try {
-            project.getColumns().remove(column);
-            projectService.update(project);
-            column.setProject(null);
-            columnService.delete(column.getId());
-            ra.addFlashAttribute(MESSAGE, "Removing is successful");
-        } catch (Exception e) {
-            e.printStackTrace();
-            ra.addFlashAttribute(MESSAGE, "Removing failed");
-        }
+        Project project = columnService.delete(id, ra);
         return REDIRECT_TO_ALL_ITEMS + "/" + project.getId();
     }
+
 }

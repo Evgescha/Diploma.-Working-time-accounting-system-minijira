@@ -1,23 +1,23 @@
 package com.hescha.minijira.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.model.User;
 import com.hescha.minijira.model.UserStatistics;
-import com.hescha.minijira.service.ProjectService;
-import com.hescha.minijira.service.SecurityService;
-import com.hescha.minijira.service.UserService;
+import com.hescha.minijira.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Controller
@@ -35,6 +35,9 @@ public class ProjectController {
     private final ProjectService service;
     private final UserService userService;
     private final SecurityService securityService;
+    private final IssueService issueService;
+    private final ColumnService columnService;
+    private final LabelService labelService;
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @GetMapping
@@ -50,13 +53,18 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public String read(@PathVariable("id") Long id, Model model) throws Exception {
-        Project project = service.read(id);
-        model.addAttribute("project", project);
-        model.addAttribute("users", List.of());
-        String membersJson = objectMapper.writeValueAsString(project.getMembers());
-        model.addAttribute("membersJson", membersJson);
-        Long loggedUserId = securityService.getLoggedIn().getId();
-        model.addAttribute("isOwner", Objects.equals(loggedUserId, project.getOwner().getId()));
+        Optional<Project> projectOpt = service.readOpt(id);
+        if (projectOpt.isPresent()) {
+            Project project = projectOpt.get();
+            model.addAttribute("project", project);
+            model.addAttribute("users", List.of());
+            String membersJson = objectMapper.writeValueAsString(project.getMembers());
+            model.addAttribute("membersJson", membersJson);
+            Long loggedUserId = securityService.getLoggedIn().getId();
+            model.addAttribute("isOwner", Objects.equals(loggedUserId, project.getOwner().getId()));
+        } else {
+            model.addAttribute("project", new Project());
+        }
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
     }
 
@@ -158,7 +166,8 @@ public class ProjectController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
         try {
-            service.delete(id);
+            tryDelete(id);
+            delete(id);
             ra.addFlashAttribute(MESSAGE, "Removing is successful");
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,4 +175,38 @@ public class ProjectController {
         }
         return REDIRECT_TO_ALL_ITEMS;
     }
+
+    private void tryDelete(Long id) {
+        for (int i = 0; i < 3; i++) {
+            try {
+                delete(id);
+            } catch (Exception e){
+            }
+        }
+    }
+
+    private void delete(Long id) {
+        Project project = service.read(id);
+        var modelMap = new RedirectAttributesModelMap();
+        project.getLabels().forEach(entity -> labelService.delete(entity.getId(), modelMap));
+        project.getIssues().forEach(entity -> issueService.delete(entity.getId(), modelMap));
+        project.getColumns().forEach(entity -> columnService.delete(entity.getId(), modelMap));
+
+        project = service.read(id);
+        for (User member : project.getMembers()) {
+            member.getContributeProjects().remove(project);
+            userService.update(member);
+        }
+
+        project = service.read(id);
+        project.setMembers(Collections.emptyList());
+        User owner = project.getOwner();
+        owner.getOwnProjects().remove(project);
+        project.setOwner(null);
+        userService.update(owner);
+        service.update(project);
+
+        service.delete(id);
+    }
+
 }

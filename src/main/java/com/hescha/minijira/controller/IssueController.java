@@ -3,7 +3,6 @@ package com.hescha.minijira.controller;
 import com.hescha.minijira.model.Activity;
 import com.hescha.minijira.model.ActivityType;
 import com.hescha.minijira.model.Column;
-import com.hescha.minijira.model.Comment;
 import com.hescha.minijira.model.Issue;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.model.User;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -34,18 +32,16 @@ public class IssueController {
     public static final String THYMELEAF_TEMPLATE_ONE_ITEM_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-one";
     public static final String THYMELEAF_TEMPLATE_EDIT_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-edit";
     public static final String REDIRECT_TO_ALL_ITEMS = "redirect:" + CURRENT_ADDRESS;
-    private final IssueService service;
     private final IssueService issueService;
     private final ProjectService projectService;
-    private final ColumnService columnService;
     private final ActivityService activityService;
+    private final ColumnService columnService;
     private final SecurityService securityService;
-    private final CommentService commentService;
     private final UserService userService;
 
     @GetMapping
     public String readAllFromProject(Model model) {
-        model.addAttribute("list", service.readAll());
+        model.addAttribute("list", issueService.readAll());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 
@@ -71,7 +67,7 @@ public class IssueController {
         Integer timeSpend = issue.getTimeSpend();
         timeSpend = timeSpend == null ? 0 : timeSpend;
         issue.setTimeSpend(timeSpend + timeAmount);
-        Issue updatedIssue = service.update(issue);
+        Issue updatedIssue = issueService.update(issue);
 
         User loggedIn = securityService.getLoggedIn();
 
@@ -95,7 +91,7 @@ public class IssueController {
         Integer timeSpend = issue.getTimeSpend();
         timeSpend = timeSpend == null ? 0 : timeSpend;
         issue.setTimeSpend(timeSpend - timeAmount);
-        Issue updatedIssue = service.update(issue);
+        Issue updatedIssue = issueService.update(issue);
 
         User loggedIn = securityService.getLoggedIn();
 
@@ -118,7 +114,7 @@ public class IssueController {
         Column currentColumn = updatedIssue.getColumn();
         Column newColumn = columnService.read(statusId);
         updatedIssue.setColumn(newColumn);
-        updatedIssue = service.update(updatedIssue);
+        updatedIssue = issueService.update(updatedIssue);
         newColumn.getIssues().add(updatedIssue);
         columnService.update(newColumn);
 
@@ -154,7 +150,7 @@ public class IssueController {
         if (issueId == null) {
             issue = new Issue();
         } else {
-            issue = service.read(issueId);
+            issue = issueService.read(issueId);
         }
         Project project = projectService.read(id);
         model.addAttribute("entity", issue);
@@ -167,10 +163,10 @@ public class IssueController {
     public String assignUser(Model model,
                            @PathVariable Long id,
                            @PathVariable Long userId) {
-        Issue issue = service.read(id);
+        Issue issue = issueService.read(id);
         User user = userService.read(userId);
         issue.setAssigned(user);
-        service.update(issue);
+        issueService.update(issue);
         return REDIRECT_TO_ALL_ITEMS +"/get/" +id;
     }
 
@@ -185,7 +181,7 @@ public class IssueController {
                 entity.setDateCreated(LocalDateTime.now());
                 entity.setTimeSpend(0);
                 entity.setCreated(securityService.getLoggedIn());
-                Issue createdEntity = service.create(entity);
+                Issue createdEntity = issueService.create(entity);
                 project = projectService.read(projectId);
                 project.getIssues().add(createdEntity);
                 projectService.update(project);
@@ -209,7 +205,7 @@ public class IssueController {
             }
         } else {
             try {
-                Issue updatedIssue = service.update(entity.getId(), entity);
+                Issue updatedIssue = issueService.update(entity.getId(), entity);
                 User loggedIn = securityService.getLoggedIn();
 
                 Activity activity = new Activity();
@@ -231,33 +227,7 @@ public class IssueController {
     }
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
-        Issue issue = issueService.read(id);
-        Project project = issue.getProject();
-        Long projectId = project.getId();
-        try {
-            project.getIssues().remove(issue);
-            issue.setProject(null);
-            List<Activity> activities = issue.getActivities();
-
-            // Remove the relationship between Issue and Activity
-            for (Activity activity : activities) {
-                activity.setIssue(null);
-            }
-            activityService.deleteAll(activities);
-            List<Comment> comments = issue.getComments();
-            for (Comment comment:comments){
-                comment.setOwner(null);
-                comment.setIssue(null);
-            }
-            comments.removeAll(comments);
-
-            projectService.update(project);
-            service.delete(id);
-            ra.addFlashAttribute(MESSAGE, "Removing is successful");
-        } catch (Exception e) {
-            e.printStackTrace();
-            ra.addFlashAttribute(MESSAGE, "Removing failed");
-        }
+        Long projectId = issueService.delete(id, ra);
         return REDIRECT_TO_ALL_ITEMS + "/" + projectId;
     }
 }

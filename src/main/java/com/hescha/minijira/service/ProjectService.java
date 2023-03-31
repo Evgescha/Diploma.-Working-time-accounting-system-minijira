@@ -4,10 +4,10 @@ import com.hescha.minijira.model.*;
 import com.hescha.minijira.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,4 +85,8 @@ public class ProjectService extends CrudService<Project> {
         return userStatisticsList;
     }
 
+    public Optional<Project> readOpt(long id) {
+        return repository.findById(id);
+
+    }
 }

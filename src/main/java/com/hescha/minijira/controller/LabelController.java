@@ -1,7 +1,9 @@
 package com.hescha.minijira.controller;
 
+import com.hescha.minijira.model.Issue;
 import com.hescha.minijira.model.Label;
 import com.hescha.minijira.model.Project;
+import com.hescha.minijira.service.IssueService;
 import com.hescha.minijira.service.LabelService;
 import com.hescha.minijira.service.ProjectService;
 import com.hescha.minijira.service.SecurityService;
@@ -27,8 +29,8 @@ public class LabelController {
 
     private final LabelService labelService;
     private final ProjectService projectService;
+    private final IssueService issueService;
     private final SecurityService securityService;
-
 
     @GetMapping
     public String readAll(Model model) {
@@ -88,18 +90,8 @@ public class LabelController {
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
-        Label label = labelService.read(id);
-        Project project = label.getProject();
-        try {
-            project.getLabels().remove(label);
-            projectService.update(project);
-            label.setProject(null);
-            labelService.delete(label.getId());
-            ra.addFlashAttribute(MESSAGE, "Removing is successful");
-        } catch (Exception e) {
-            e.printStackTrace();
-            ra.addFlashAttribute(MESSAGE, "Removing failed");
-        }
+        Project project = labelService.delete(id, ra);
         return REDIRECT_TO_ALL_ITEMS + "/" + project.getId();
     }
+
 }
