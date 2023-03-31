@@ -1,6 +1,5 @@
 package com.hescha.minijira.controller;
 
-import com.hescha.minijira.model.Issue;
 import com.hescha.minijira.model.Label;
 import com.hescha.minijira.model.Project;
 import com.hescha.minijira.service.IssueService;
@@ -29,7 +28,6 @@ public class LabelController {
 
     private final LabelService labelService;
     private final ProjectService projectService;
-    private final IssueService issueService;
     private final SecurityService securityService;
 
     @GetMapping

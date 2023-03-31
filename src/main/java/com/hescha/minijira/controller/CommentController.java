@@ -71,7 +71,7 @@ public class CommentController {
                 Issue updatedIssue = issueService.update(issue);
 
                 Activity activity = new Activity();
-                activity.setDescription(LocalDateTime.now() +": " + user.getUsername() + " added a comment");
+                activity.setDescription(LocalDateTime.now() + ": " + user.getUsername() + " added a comment");
                 activity.setIssue(issue);
                 activity.setType(ActivityType.COMMENT_ADD);
                 activity.setOwner(user);

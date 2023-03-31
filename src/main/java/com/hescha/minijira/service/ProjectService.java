@@ -87,6 +87,5 @@ public class ProjectService extends CrudService<Project> {
 
     public Optional<Project> readOpt(long id) {
         return repository.findById(id);
-
     }
 }

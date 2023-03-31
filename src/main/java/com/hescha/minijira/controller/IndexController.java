@@ -21,6 +21,7 @@ public class IndexController {
     public String indexPage() {
         return "redirect:/project";
     }
+
     @PostMapping
     public String indexPagePost() {
         return "redirect:/project";
@@ -32,7 +33,7 @@ public class IndexController {
     }
 
     @PostMapping("/registration")
-    public String registrationPost(User user, Model model){
+    public String registrationPost(User user, Model model) {
         log.info("Registration controller, new user: {}", user);
         boolean success = userService.registerNew(user);
         String response = success

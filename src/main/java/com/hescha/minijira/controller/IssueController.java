@@ -72,7 +72,7 @@ public class IssueController {
         User loggedIn = securityService.getLoggedIn();
 
         Activity activity = new Activity();
-        activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " added " + timeAmount +" minutes");
+        activity.setDescription(LocalDateTime.now() + ": " + loggedIn.getUsername() + " added " + timeAmount + " minutes");
         activity.setIssue(issue);
         activity.setType(ActivityType.TIME_ADDED);
         activity.setOwner(loggedIn);
@@ -96,7 +96,7 @@ public class IssueController {
         User loggedIn = securityService.getLoggedIn();
 
         Activity activity = new Activity();
-        activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " removed " + timeAmount +" minutes");
+        activity.setDescription(LocalDateTime.now() + ": " + loggedIn.getUsername() + " removed " + timeAmount + " minutes");
         activity.setIssue(issue);
         activity.setType(ActivityType.TIME_DELETED);
         activity.setOwner(loggedIn);
@@ -109,7 +109,7 @@ public class IssueController {
 
     @PostMapping("/{id}/status")
     public String changeStatus(@PathVariable("id") Long id,
-                             @RequestParam("statusId") Integer statusId) {
+                               @RequestParam("statusId") Integer statusId) {
         Issue updatedIssue = issueService.read(id);
         Column currentColumn = updatedIssue.getColumn();
         Column newColumn = columnService.read(statusId);
@@ -121,8 +121,8 @@ public class IssueController {
         User loggedIn = securityService.getLoggedIn();
 
         Activity activity = new Activity();
-        activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername()
-                + " change status from " + currentColumn.getName() +" to " + newColumn.getName());
+        activity.setDescription(LocalDateTime.now() + ": " + loggedIn.getUsername()
+                + " change status from " + currentColumn.getName() + " to " + newColumn.getName());
         activity.setIssue(updatedIssue);
         activity.setType(ActivityType.STATUS_CHANGE);
         activity.setOwner(loggedIn);
@@ -161,13 +161,13 @@ public class IssueController {
 
     @GetMapping(path = {"/{id}/assign/{userId}"})
     public String assignUser(Model model,
-                           @PathVariable Long id,
-                           @PathVariable Long userId) {
+                             @PathVariable Long id,
+                             @PathVariable Long userId) {
         Issue issue = issueService.read(id);
         User user = userService.read(userId);
         issue.setAssigned(user);
         issueService.update(issue);
-        return REDIRECT_TO_ALL_ITEMS +"/get/" +id;
+        return REDIRECT_TO_ALL_ITEMS + "/get/" + id;
     }
 
     @PostMapping
@@ -190,7 +190,7 @@ public class IssueController {
                 User loggedIn = securityService.getLoggedIn();
 
                 Activity activity = new Activity();
-                activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " created issue");
+                activity.setDescription(LocalDateTime.now() + ": " + loggedIn.getUsername() + " created issue");
                 activity.setIssue(createdEntity);
                 activity.setType(ActivityType.COMMENT_ADD);
                 activity.setOwner(loggedIn);
@@ -209,7 +209,7 @@ public class IssueController {
                 User loggedIn = securityService.getLoggedIn();
 
                 Activity activity = new Activity();
-                activity.setDescription(LocalDateTime.now() +": " + loggedIn.getUsername() + " updated issue");
+                activity.setDescription(LocalDateTime.now() + ": " + loggedIn.getUsername() + " updated issue");
                 activity.setIssue(updatedIssue);
                 activity.setType(ActivityType.COMMENT_ADD);
                 activity.setOwner(loggedIn);
@@ -225,6 +225,7 @@ public class IssueController {
         }
         return REDIRECT_TO_ALL_ITEMS + "/" + projectId;
     }
+
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
         Long projectId = issueService.delete(id, ra);

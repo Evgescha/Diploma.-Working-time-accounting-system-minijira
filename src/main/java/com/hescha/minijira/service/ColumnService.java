@@ -12,12 +12,10 @@ import java.util.List;
 public class ColumnService extends CrudService<Column> {
     public static final String MESSAGE = "message";
 
-    private final ColumnRepository repository;
     private final ProjectService projectService;
 
     public ColumnService(ColumnRepository repository, ProjectService projectService) {
         super(repository);
-        this.repository = repository;
         this.projectService = projectService;
     }
 
@@ -40,7 +38,6 @@ public class ColumnService extends CrudService<Column> {
         Column column = read(id);
         Project project = column.getProject();
 
-        // Проверка, есть ли задачи (issues) в колонке
         if (!column.getIssues().isEmpty()) {
             ra.addFlashAttribute(MESSAGE, "Cannot remove the column. It contains issues.");
         }

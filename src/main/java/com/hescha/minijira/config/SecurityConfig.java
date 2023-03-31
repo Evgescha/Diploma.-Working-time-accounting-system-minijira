@@ -27,8 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.headers().frameOptions().disable();
-
         http
                 .csrf().disable()
                 .cors().disable()
@@ -36,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/h2", "/h2/**", "/css/*", "/js/*", "/img/*", "/project",
                         "/registration", "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/registration", "/login").permitAll()
-//                .antMatchers("/login", "/registration").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

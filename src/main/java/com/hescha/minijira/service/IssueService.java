@@ -57,7 +57,7 @@ public class IssueService extends CrudService<Issue> {
             }
             activityService.deleteAll(activities);
             List<Comment> comments = issue.getComments();
-            for (Comment comment:comments){
+            for (Comment comment : comments) {
                 comment.setOwner(null);
                 comment.setIssue(null);
             }

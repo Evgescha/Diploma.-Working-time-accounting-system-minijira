@@ -24,11 +24,9 @@ public class ColumnController {
     public static final String THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE = API_PATH;
     public static final String THYMELEAF_TEMPLATE_EDIT_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-edit";
     public static final String REDIRECT_TO_ALL_ITEMS = "redirect:" + CURRENT_ADDRESS;
-
     private final ColumnService columnService;
     private final ProjectService projectService;
     private final SecurityService securityService;
-
 
     @GetMapping
     public String readAll(Model model) {

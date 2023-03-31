@@ -1,15 +1,10 @@
 package com.hescha.minijira.service;
 
-import com.hescha.minijira.model.Activity;
-import com.hescha.minijira.model.Issue;
-import com.hescha.minijira.model.User;
 import com.hescha.minijira.model.Comment;
 import com.hescha.minijira.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class CommentService extends CrudService<Comment> {
@@ -31,7 +26,7 @@ public class CommentService extends CrudService<Comment> {
 
     }
 
-    public void deleteAll(Collection<Comment> list){
+    public void deleteAll(Collection<Comment> list) {
         repository.deleteAll(list);
     }
 

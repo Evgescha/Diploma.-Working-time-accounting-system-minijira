@@ -1,8 +1,6 @@
 package com.hescha.minijira.controller;
 
 import com.hescha.minijira.model.User;
-import com.hescha.minijira.service.CommentService;
-import com.hescha.minijira.service.ProjectService;
 import com.hescha.minijira.service.SecurityService;
 import com.hescha.minijira.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +24,7 @@ public class UserController {
     public static final String THYMELEAF_TEMPLATE_ONE_ITEM_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-one";
     public static final String THYMELEAF_TEMPLATE_EDIT_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-edit";
     public static final String REDIRECT_TO_ALL_ITEMS = "redirect:" + CURRENT_ADDRESS;
-
     private final UserService service;
-
-    private final ProjectService projectService;
-    private final CommentService commentService;
     private final SecurityService securityService;
     private final PasswordEncoder passwordEncoder;
 

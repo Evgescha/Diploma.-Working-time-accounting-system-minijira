@@ -1,14 +1,10 @@
 package com.hescha.minijira.service;
 
 import com.hescha.minijira.model.Activity;
-import com.hescha.minijira.model.ActivityType;
-import com.hescha.minijira.model.Issue;
 import com.hescha.minijira.repository.ActivityRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class ActivityService extends CrudService<Activity> {
@@ -31,7 +27,7 @@ public class ActivityService extends CrudService<Activity> {
 
     }
 
-    public void deleteAll(Collection<Activity> activities){
+    public void deleteAll(Collection<Activity> activities) {
         repository.deleteAll(activities);
     }
 
