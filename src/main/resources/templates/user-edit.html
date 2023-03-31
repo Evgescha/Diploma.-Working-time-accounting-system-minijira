@@ -48,7 +48,7 @@
 							<div class="col">
 								<div class="fieldItem">
 									<label for="email" class="fieldItemLabel">Email</label>
-									<input id="email" name="email" type="email" class="fieldItemInput"/>
+									<input id="email" name="email" type="email" class="fieldItemInput" th:field="*{email}"/>
 								</div>
 							</div>
 						</div>
@@ -73,6 +73,7 @@
 							<div class="col">
 								<div class="fieldItem">
 	  								<input type="submit" class="btn btn-primary" value="Update">
+									<button onclick="history.back()" class="btn btn-secondary">Cancel</button>
 								</div>
 							</div>
 						</div>

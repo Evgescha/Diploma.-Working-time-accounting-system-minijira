@@ -23,7 +23,8 @@
                         <p class="email" th:text="${entity.email}">Email</p>
                     </div>
                     <div class="edit-profile">
-                        <a th:href="@{/user/edit/{id}(id=${entity.id})}" class="btn btn-primary">Edit Profile</a>
+                        <a th:if="${#request.userPrincipal.getName().equals(entity.username)}"
+                                th:href="@{/user/edit/{id}(id=${entity.id})}" class="btn btn-primary">Edit Profile</a>
                     </div>
                 </div>
             </div>

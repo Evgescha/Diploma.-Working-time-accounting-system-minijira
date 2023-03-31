@@ -177,16 +177,18 @@ public class ProjectController {
     }
 
     private void tryDelete(Long id) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             try {
                 delete(id);
-            } catch (Exception e){
+            } catch (Exception e) {
             }
         }
     }
 
     private void delete(Long id) {
-        Project project = service.read(id);
+        Optional<Project> opt = service.readOpt(id);
+        if (opt.isEmpty()) return;
+        Project project = opt.get();
         var modelMap = new RedirectAttributesModelMap();
         project.getLabels().forEach(entity -> labelService.delete(entity.getId(), modelMap));
         project.getIssues().forEach(entity -> issueService.delete(entity.getId(), modelMap));
@@ -201,9 +203,12 @@ public class ProjectController {
         project = service.read(id);
         project.setMembers(Collections.emptyList());
         User owner = project.getOwner();
-        owner.getOwnProjects().remove(project);
+        if (owner != null) {
+            owner.getOwnProjects().remove(project);
+            userService.update(owner);
+            project = service.read(id);
+        }
         project.setOwner(null);
-        userService.update(owner);
         service.update(project);
 
         service.delete(id);
