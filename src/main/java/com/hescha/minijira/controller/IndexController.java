@@ -37,8 +37,8 @@ public class IndexController {
         log.info("Registration controller, new user: {}", user);
         boolean success = userService.registerNew(user);
         String response = success
-                ? "Успешно зарегистрирован"
-                : "Ошибка регистрации. Попробуйте позже.";
+                ? "Success"
+                : "Registration failed. Try again later";
         model.addAttribute("success", response);
         return "registration";
 
