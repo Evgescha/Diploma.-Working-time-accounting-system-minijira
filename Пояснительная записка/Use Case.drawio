@@ -1,0 +1,128 @@
+<mxfile host="www.draw.io" modified="2023-04-01T16:27:40.563Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="lo53PyZfcqX_F-y-xF0f" version="21.1.2" type="device">
+  <diagram id="cFC37szVVWTbtf8zSMBV" name="Страница 1">
+    <mxGraphModel dx="989" dy="549" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ryauya5RX49HXRHcPNDc-25" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="160" y="40" width="520" height="450" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-26" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-1" target="ryauya5RX49HXRHcPNDc-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-27" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-1" target="ryauya5RX49HXRHcPNDc-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-28" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-1" target="ryauya5RX49HXRHcPNDc-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-29" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-1" target="ryauya5RX49HXRHcPNDc-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-30" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-1" target="ryauya5RX49HXRHcPNDc-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-1" value="Гость" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="80" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-31" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-2" target="ryauya5RX49HXRHcPNDc-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-32" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-2" target="ryauya5RX49HXRHcPNDc-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-33" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-2" target="ryauya5RX49HXRHcPNDc-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-34" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-2" target="ryauya5RX49HXRHcPNDc-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-35" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-2" target="ryauya5RX49HXRHcPNDc-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-36" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.16;entryY=0.029;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-2" target="ryauya5RX49HXRHcPNDc-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-2" value="Пользователь" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="210" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-38" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-3" target="ryauya5RX49HXRHcPNDc-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-39" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-3" target="ryauya5RX49HXRHcPNDc-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-40" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-3" target="ryauya5RX49HXRHcPNDc-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-41" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-3" target="ryauya5RX49HXRHcPNDc-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-42" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="ryauya5RX49HXRHcPNDc-3" target="ryauya5RX49HXRHcPNDc-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-3" value="Владелец проекта" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="360" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-4" value="Просмотр списка всех проектов" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="199" y="50" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-5" value="Регистрация в системе" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="60" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-6" value="Вход в систему" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="50" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-7" value="Просмотр своего профиля" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="140" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-8" value="Редактирование своего профиля" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="110" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-9" value="Создание нового проекта" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="250" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-10" value="Просмотр списка своих проектов" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="280" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-11" value="Просмотр детальной информации о проекте" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="270" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-12" value="Комментирование задач" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="200" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-14" value="Просмотр статистики по проектам" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="190" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-15" value="Добавление участников в проект" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="430" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-16" value="Редактирование и удаление проекта" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="320" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-17" value="Создание, редактирование задач, меток и столбцов" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-18" value="Перемещение задач между столбцами" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="370" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-19" value="Просмотр списка участников проекта" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="160" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ryauya5RX49HXRHcPNDc-20" value="Назначение другого пользователя владельцем проекта" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

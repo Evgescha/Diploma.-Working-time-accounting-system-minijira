@@ -1,0 +1,124 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class ACTIVITY {
+   DATE_CREATED: timestamp
+   DESCRIPTION: character varying(255)
+   TYPE: integer
+   ISSUE_ID: bigint
+   OWNER_ID: bigint
+   ID: bigint
+}
+class COLUMN {
+   NAME: character varying(255)
+   PROJECT_ID: bigint
+   ID: bigint
+}
+class COMMENT {
+   DATE_CREATED: timestamp
+   TEXT: character varying(255)
+   ISSUE_ID: bigint
+   OWNER_ID: bigint
+   ID: bigint
+}
+class ISSUE {
+   DATE_CREATED: timestamp
+   DESCRIPTION: character varying(255)
+   NAME: character varying(255)
+   STATUS: integer
+   TIME_SPEND: integer
+   ASSIGNED_ID: bigint
+   COLUMN_ID: bigint
+   CREATED_ID: bigint
+   PROJECT_ID: bigint
+   ID: bigint
+}
+class ISSUE_COMMENTS {
+   ISSUE_ID: bigint
+   COMMENTS_ID: bigint
+}
+class ISSUE_LABELS {
+   ISSUE_ID: bigint
+   LABELS_ID: bigint
+}
+class LABEL {
+   DESCRIPTION: character varying(255)
+   NAME: character varying(255)
+   PROJECT_ID: bigint
+   ID: bigint
+}
+class LABEL_ISSUES {
+   LABEL_ID: bigint
+   ISSUES_ID: bigint
+}
+class MY_USER {
+   DATE_CREATED: timestamp
+   EMAIL: character varying(255)
+   FIRSTNAME: character varying(255)
+   IMAGE: character varying(255)
+   LASTNAME: character varying(255)
+   PASSWORD: character varying(255)
+   USERNAME: character varying(255)
+   ID: bigint
+}
+class MY_USER_CONTRIBUTE_PROJECTS {
+   USER_ID: bigint
+   CONTRIBUTE_PROJECTS_ID: bigint
+}
+class PROJECT {
+   DATE_CREATED: timestamp
+   DESCRIPTION: character varying(1000)
+   IMAGE: character varying(255)
+   NAME: character varying(255)
+   STATUS: integer
+   OWNER_ID: bigint
+   ID: bigint
+}
+class PROJECT_COLUMNS {
+   PROJECT_ID: bigint
+   COLUMNS_ID: bigint
+}
+class PROJECT_ISSUES {
+   PROJECT_ID: bigint
+   ISSUES_ID: bigint
+}
+class PROJECT_LABELS {
+   PROJECT_ID: bigint
+   LABELS_ID: bigint
+}
+class PROJECT_MEMBERS {
+   PROJECT_ID: bigint
+   MEMBERS_ID: bigint
+}
+
+ACTIVITY                     -[#595959,plain]-^  ISSUE                       : "ISSUE_ID:ID"
+ACTIVITY                     -[#595959,plain]-^  MY_USER                     : "OWNER_ID:ID"
+COLUMN                       -[#595959,plain]-^  PROJECT                     : "PROJECT_ID:ID"
+COMMENT                      -[#595959,plain]-^  ISSUE                       : "ISSUE_ID:ID"
+COMMENT                      -[#595959,plain]-^  MY_USER                     : "OWNER_ID:ID"
+ISSUE                        -[#595959,plain]-^  COLUMN                      : "COLUMN_ID:ID"
+ISSUE                        -[#595959,plain]-^  MY_USER                     : "CREATED_ID:ID"
+ISSUE                        -[#595959,plain]-^  MY_USER                     : "ASSIGNED_ID:ID"
+ISSUE                        -[#595959,plain]-^  PROJECT                     : "PROJECT_ID:ID"
+ISSUE_COMMENTS               -[#595959,plain]-^  COMMENT                     : "COMMENTS_ID:ID"
+ISSUE_COMMENTS               -[#595959,plain]-^  ISSUE                       : "ISSUE_ID:ID"
+ISSUE_LABELS                 -[#595959,plain]-^  ISSUE                       : "ISSUE_ID:ID"
+ISSUE_LABELS                 -[#595959,plain]-^  LABEL                       : "LABELS_ID:ID"
+LABEL                        -[#595959,plain]-^  PROJECT                     : "PROJECT_ID:ID"
+LABEL_ISSUES                 -[#595959,plain]-^  ISSUE                       : "ISSUES_ID:ID"
+LABEL_ISSUES                 -[#595959,plain]-^  LABEL                       : "LABEL_ID:ID"
+MY_USER_CONTRIBUTE_PROJECTS  -[#595959,plain]-^  MY_USER                     : "USER_ID:ID"
+MY_USER_CONTRIBUTE_PROJECTS  -[#595959,plain]-^  PROJECT                     : "CONTRIBUTE_PROJECTS_ID:ID"
+PROJECT                      -[#595959,plain]-^  MY_USER                     : "OWNER_ID:ID"
+PROJECT_COLUMNS              -[#595959,plain]-^  COLUMN                      : "COLUMNS_ID:ID"
+PROJECT_COLUMNS              -[#595959,plain]-^  PROJECT                     : "PROJECT_ID:ID"
+PROJECT_ISSUES               -[#595959,plain]-^  ISSUE                       : "ISSUES_ID:ID"
+PROJECT_ISSUES               -[#595959,plain]-^  PROJECT                     : "PROJECT_ID:ID"
+PROJECT_LABELS               -[#595959,plain]-^  LABEL                       : "LABELS_ID:ID"
+PROJECT_LABELS               -[#595959,plain]-^  PROJECT                     : "PROJECT_ID:ID"
+PROJECT_MEMBERS              -[#595959,plain]-^  MY_USER                     : "MEMBERS_ID:ID"
+PROJECT_MEMBERS              -[#595959,plain]-^  PROJECT                     : "PROJECT_ID:ID"
+@enduml

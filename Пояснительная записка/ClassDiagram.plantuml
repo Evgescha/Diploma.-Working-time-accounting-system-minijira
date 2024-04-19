@@ -1,0 +1,138 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AbstractEntity
+class Activity
+class ActivityController
+interface ActivityRepository << interface >>
+class ActivityService
+enum ActivityType << enumeration >>
+class BeansConfig
+class Column
+class ColumnController
+interface ColumnRepository << interface >>
+class ColumnService
+class Comment
+class CommentController
+interface CommentRepository << interface >>
+class CommentService
+class CrudService<Entity>
+class IndexController
+class Issue
+class IssueController
+interface IssueRepository << interface >>
+class IssueService
+enum IssueStatus << enumeration >>
+class Label
+class LabelController
+interface LabelRepository << interface >>
+class LabelService
+class LoginController
+class Project
+class ProjectController
+interface ProjectRepository << interface >>
+class ProjectService
+enum ProjectStatusType << enumeration >>
+class SecurityConfig
+class SecurityService
+class User
+class UserController
+interface UserRepository << interface >>
+class UserService
+class UserStatistics
+
+Activity            -[#000082,plain]-^  AbstractEntity     
+Activity           "1" *-[#595959,plain]-> "type\n1" ActivityType       
+Activity           "1" *-[#595959,plain]-> "issue\n1" Issue              
+Activity           "1" *-[#595959,plain]-> "owner\n1" User               
+ActivityController  -[#595959,dashed]->  Activity           : "«create»"
+ActivityController "1" *-[#595959,plain]-> "service\n1" ActivityService    
+ActivityController "1" *-[#595959,plain]-> "issueService\n1" IssueService       
+ActivityService    "1" *-[#595959,plain]-> "repository\n1" ActivityRepository 
+ActivityService     -[#000082,plain]-^  CrudService        
+Column              -[#000082,plain]-^  AbstractEntity     
+Column             "1" *-[#595959,plain]-> "issues\n*" Issue              
+Column             "1" *-[#595959,plain]-> "project\n1" Project            
+ColumnController    -[#595959,dashed]->  Column             : "«create»"
+ColumnController   "1" *-[#595959,plain]-> "columnService\n1" ColumnService      
+ColumnController   "1" *-[#595959,plain]-> "projectService\n1" ProjectService     
+ColumnController   "1" *-[#595959,plain]-> "securityService\n1" SecurityService    
+ColumnService       -[#000082,plain]-^  CrudService        
+ColumnService      "1" *-[#595959,plain]-> "projectService\n1" ProjectService     
+Comment             -[#000082,plain]-^  AbstractEntity     
+Comment            "1" *-[#595959,plain]-> "issue\n1" Issue              
+Comment            "1" *-[#595959,plain]-> "owner\n1" User               
+CommentController   -[#595959,dashed]->  Activity           : "«create»"
+CommentController  "1" *-[#595959,plain]-> "activityService\n1" ActivityService    
+CommentController   -[#595959,dashed]->  Comment            : "«create»"
+CommentController  "1" *-[#595959,plain]-> "service\n1" CommentService     
+CommentController  "1" *-[#595959,plain]-> "issueService\n1" IssueService       
+CommentController  "1" *-[#595959,plain]-> "securityService\n1" SecurityService    
+CommentController  "1" *-[#595959,plain]-> "userService\n1" UserService        
+CommentService     "1" *-[#595959,plain]-> "repository\n1" CommentRepository  
+CommentService      -[#000082,plain]-^  CrudService        
+CrudService         -[#595959,dashed]->  AbstractEntity     
+IndexController    "1" *-[#595959,plain]-> "userService\n1" UserService        
+Issue               -[#000082,plain]-^  AbstractEntity     
+Issue              "1" *-[#595959,plain]-> "activities\n*" Activity           
+Issue              "1" *-[#595959,plain]-> "column\n1" Column             
+Issue              "1" *-[#595959,plain]-> "comments\n*" Comment            
+Issue              "1" *-[#595959,plain]-> "status\n1" IssueStatus        
+Issue              "1" *-[#595959,plain]-> "labels\n*" Label              
+Issue              "1" *-[#595959,plain]-> "project\n1" Project            
+Issue              "1" *-[#595959,plain]-> "assigned\n1" User               
+IssueController     -[#595959,dashed]->  Activity           : "«create»"
+IssueController    "1" *-[#595959,plain]-> "activityService\n1" ActivityService    
+IssueController    "1" *-[#595959,plain]-> "columnService\n1" ColumnService      
+IssueController     -[#595959,dashed]->  Issue              : "«create»"
+IssueController    "1" *-[#595959,plain]-> "issueService\n1" IssueService       
+IssueController    "1" *-[#595959,plain]-> "projectService\n1" ProjectService     
+IssueController    "1" *-[#595959,plain]-> "securityService\n1" SecurityService    
+IssueController    "1" *-[#595959,plain]-> "userService\n1" UserService        
+IssueService       "1" *-[#595959,plain]-> "activityService\n1" ActivityService    
+IssueService        -[#000082,plain]-^  CrudService        
+IssueService       "1" *-[#595959,plain]-> "repository\n1" IssueRepository    
+IssueService       "1" *-[#595959,plain]-> "projectService\n1" ProjectService     
+Label               -[#000082,plain]-^  AbstractEntity     
+Label              "1" *-[#595959,plain]-> "issues\n*" Issue              
+Label              "1" *-[#595959,plain]-> "project\n1" Project            
+LabelController     -[#595959,dashed]->  Label              : "«create»"
+LabelController    "1" *-[#595959,plain]-> "labelService\n1" LabelService       
+LabelController    "1" *-[#595959,plain]-> "projectService\n1" ProjectService     
+LabelController    "1" *-[#595959,plain]-> "securityService\n1" SecurityService    
+LabelService        -[#000082,plain]-^  CrudService        
+LabelService       "1" *-[#595959,plain]-> "issueService\n1" IssueService       
+LabelService       "1" *-[#595959,plain]-> "repository\n1" LabelRepository    
+LabelService       "1" *-[#595959,plain]-> "projectService\n1" ProjectService     
+Project             -[#000082,plain]-^  AbstractEntity     
+Project            "1" *-[#595959,plain]-> "columns\n*" Column             
+Project            "1" *-[#595959,plain]-> "issues\n*" Issue              
+Project            "1" *-[#595959,plain]-> "labels\n*" Label              
+Project            "1" *-[#595959,plain]-> "status\n1" ProjectStatusType  
+Project            "1" *-[#595959,plain]-> "members\n*" User               
+ProjectController  "1" *-[#595959,plain]-> "columnService\n1" ColumnService      
+ProjectController  "1" *-[#595959,plain]-> "issueService\n1" IssueService       
+ProjectController  "1" *-[#595959,plain]-> "labelService\n1" LabelService       
+ProjectController   -[#595959,dashed]->  Project            : "«create»"
+ProjectController  "1" *-[#595959,plain]-> "service\n1" ProjectService     
+ProjectController  "1" *-[#595959,plain]-> "securityService\n1" SecurityService    
+ProjectController  "1" *-[#595959,plain]-> "userService\n1" UserService        
+ProjectService      -[#000082,plain]-^  CrudService        
+ProjectService     "1" *-[#595959,plain]-> "repository\n1" ProjectRepository  
+ProjectService      -[#595959,dashed]->  UserStatistics     : "«create»"
+SecurityConfig     "1" *-[#595959,plain]-> "userDetailsService\n1" UserService        
+SecurityService    "1" *-[#595959,plain]-> "userService\n1" UserService        
+User                -[#000082,plain]-^  AbstractEntity     
+User               "1" *-[#595959,plain]-> "ownProjects\n*" Project            
+UserController     "1" *-[#595959,plain]-> "securityService\n1" SecurityService    
+UserController      -[#595959,dashed]->  User               : "«create»"
+UserController     "1" *-[#595959,plain]-> "service\n1" UserService        
+UserService         -[#000082,plain]-^  CrudService        
+UserService        "1" *-[#595959,plain]-> "repository\n1" UserRepository     
+UserStatistics     "1" *-[#595959,plain]-> "last10TimeActivities\n*" Activity           
+UserStatistics     "1" *-[#595959,plain]-> "last5Issues\n*" Issue              
+UserStatistics     "1" *-[#595959,plain]-> "user\n1" User               
+@enduml
